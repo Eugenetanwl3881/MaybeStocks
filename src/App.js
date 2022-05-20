@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 // test comment
+// new branch added
 
 function App() {
   return (
