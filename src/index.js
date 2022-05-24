@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
+import { ProvideAuth } from './hooks/useAuth,js';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
     <CssBaseline />
-    <App />
+    <ProvideAuth>
+        <App />
+    </ProvideAuth>
     </>
 );
 
