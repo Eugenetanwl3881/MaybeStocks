@@ -1,12 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebaseConfig';
 import React, { useState, useEffect, useContext, createContext } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
+
+const googleAuthProvider = new GoogleAuthProvider();
 
 const authContext = createContext();
 // Provider component that wraps your app and makes auth object ...
@@ -62,6 +64,9 @@ function useProvideAuth() {
         return true;
       });
   };
+  const signInWithGoogle = () => {
+    return signInWithPopup(auth, googleAuthProvider);
+  };
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...
@@ -85,5 +90,6 @@ function useProvideAuth() {
     signout,
     sendPasswordResetEmail,
     confirmPasswordReset,
+    signInWithGoogle
   };
 }
