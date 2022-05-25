@@ -12,11 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useAuth } from '../../hooks/useAuth';
 
 const pages = ['Portfolio', 'Buy', 'Sell'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = [];
 
 const ResponsiveAppBar = () => {
+  const { signout } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -34,6 +37,15 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  }
+
+  const handleLogout = () => {
+    handleClose();
+    signout();
+  }
 
   return (
     <AppBar position="static" sx={{ bgcolor: "green" }}>
@@ -152,6 +164,7 @@ const ResponsiveAppBar = () => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleLogout}>Log out</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
