@@ -161,6 +161,3 @@ const ResponsiveAppBar = () => {
 };
 export default ResponsiveAppBar;
 
-// sx={{
-//   color: 'success.main',
-// }}
