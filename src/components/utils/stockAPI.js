@@ -2,4 +2,4 @@
 export const STOCK_API = 'https://cloud.iexapis.com/v1/';
 
 //Token 
-export const TOKEN = 'pk_03bb03f60ba5429ea8b016e574e04be9';
+export const TOKEN = 'pk_8bfb7797100c4c5f9f24ef24b8375ad19';
