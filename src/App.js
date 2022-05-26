@@ -5,13 +5,12 @@ import LoginPage from "./Pages/LoginPage";
 import ResponsiveAppBar from "./components/ResponsiveAppBar/ResponsiveAppBar";
 import DataFetch from "./components/DataFetch";
 
+
 function App() {
   const { user } = useAuth();
 
   return (
     <>
-      <ResponsiveAppBar />
-
       <div className="App">{user ? <MainPage /> : <LoginPage />}</div>
     </>
   );
