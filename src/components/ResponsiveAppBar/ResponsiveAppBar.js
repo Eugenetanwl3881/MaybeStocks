@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useAuth } from '../../hooks/useAuth';
+import { Link } from "react-router-dom";
+ 
 
 const pages = ['Portfolio', 'Buy', 'Sell'];
 const settings = [];
@@ -101,7 +103,7 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center"><Link style = {{textDecoration: "none", color: "white"}} to = {`/${page}`}>{page}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -132,7 +134,7 @@ const ResponsiveAppBar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link style = {{textDecoration: "none", color: "white"}} to = {`/${page}`}>{page}</Link>
               </Button>
             ))}
           </Box>
@@ -174,6 +176,3 @@ const ResponsiveAppBar = () => {
 };
 export default ResponsiveAppBar;
 
-// sx={{
-//   color: 'success.main',
-// }}

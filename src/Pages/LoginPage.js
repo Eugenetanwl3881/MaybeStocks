@@ -6,6 +6,7 @@ function LoginPage() {
 
     return(
     <>
+        <h1>Banner NavBar for login</h1>
         <h1>Login</h1>
         <Button variant="contained" 
                 color="primary"

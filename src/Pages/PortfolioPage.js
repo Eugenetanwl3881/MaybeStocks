@@ -1,6 +1,7 @@
 // import { useState, useEffect } from "react";
 // import { useAuth, db } from "../hooks/useAuth";
 // import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import React from 'react'
 
 
 function PortfolioPage() {
@@ -31,4 +32,10 @@ function PortfolioPage() {
 
     //     </>
     // )
+  
+  return (
+    <div>PortfolioPage</div>
+  )
 }
+
+export default PortfolioPage

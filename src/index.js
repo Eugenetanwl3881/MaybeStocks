@@ -4,15 +4,19 @@ import './index.css';
 import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ProvideAuth } from './hooks/useAuth.js';
+import { BrowserRouter } from 'react-router-dom';
+
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
     <CssBaseline />
+    <BrowserRouter>
     <ProvideAuth>
         <App />
     </ProvideAuth>
+    </BrowserRouter>
     </>
 );
 
