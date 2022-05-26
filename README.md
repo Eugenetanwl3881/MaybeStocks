@@ -1,8 +1,27 @@
-# Getting Started with Create React App
+# MaybeStocks
+
+Technology stack:
+ - ReactJS 
+ - Firebase
+ -  IEX Cloud API
+
+
+Figma Wireframe:
+https://www.figma.com/file/kwfkNxRJy8KPBXeBryCP2p/MileStone1-Jam?node-id=0%3A1
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FkwfkNxRJy8KPBXeBryCP2p%2FMileStone1-Jam%3Fnode-id%3D0%253A1" allowfullscreen></iframe>
+## Motivation
+With the rise in popularity of r/WallStreetBets and the whole saga surrounding GME stocks, many people are getting into the stock market. As such, my friend and I would like a simulation of the stock market where we can buy and sell stocks, without using real money or affecting the real stock market. This web app will simulate the stock market and allow users to execute trades. Moreover, this platform will allow users to interact with their friends on the platform to allow for communication and peer learning.
+
+
+## Aim
+We hope to make a web app that allows our users to experience building their own portfolios and experience investing. Moreover, users can share their portfolios with others and interact so as to learn and understand each other’s perspective that will allow them to form more informed decisions when they are investing. Ultimately, we wish to give them a social platform to experience investing and share their progress and updates with their friends as they undergo their investing journey on the platform.
+
+
+## Proposed Level of Achievement:
+Orbital 2022 Apollo 11 
+
 
 ## Available Scripts
 
