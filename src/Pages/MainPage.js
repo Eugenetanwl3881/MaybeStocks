@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-
+import DataFetch from "../components/DataFetch";
 function MainPage() {
 
     const { user } = useAuth();
@@ -16,6 +16,8 @@ function MainPage() {
     return(
     <>
         <h1>Welcome back, {name}!</h1>
+        <h1>Main</h1>
+        <DataFetch/>
     </>
     )
 }
