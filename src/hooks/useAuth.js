@@ -2,11 +2,15 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebaseConfig';
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
+
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
 
 const googleAuthProvider = new GoogleAuthProvider();
 
