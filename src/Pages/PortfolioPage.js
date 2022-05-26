@@ -1,40 +1,35 @@
-// import { useState, useEffect } from "react";
-// import { useAuth, db } from "../hooks/useAuth";
-// import { doc, setDoc, getDoc } from "firebase/firestore"; 
-import React from 'react'
-
+import { useState, useEffect } from "react";
+import { useAuth, db } from "../hooks/useAuth";
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import TransactionTable from "../components/TransactionTable/TransactionTable";
 
 function PortfolioPage() {
 
-    // const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactionsState] = useState([]);
 
-    // const { user } = useAuth();
+    const { user } = useAuth();
 
-    // function addTransactions(newTransactions) {
-    //     setTransactions(newTransactions);
-    //     setDoc(doc(db, "Transactions", user?.uid), { transactions: newTransactions});
-    // }
+    function setTransactions(newTransactions) {
+        setTransactionsState(newTransactions);
+        setDoc(doc(db, "Transactions", user?.uid), { transactions: newTransactions });
+    }
 
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const docSnapshot = await getDoc(doc(db, "transactions", user?.uid));
-    //         if (docSnapshot.exists()) {
-    //             setTransactions(docSnapshot.data().transactions);
-    //         } else {
-    //             setTransactions([]);
-    //         }
-    //     }
-    // }, [user.uid]);
-
-    // return (
-    //     <>
-    //         <h1>Transactions</h1>
-
-    //     </>
-    // )
+    useEffect(() => {
+        async function fetchData() {
+            const docSnapshot = await getDoc(doc(db, "Transactions", user?.uid));
+            if (docSnapshot.exists()) {
+                setTransactionsState(docSnapshot.data().transactions);
+            } else {
+                setTransactionsState([]);
+            }
+        }
+        fetchData();
+    }, [user.uid]);
   
   return (
-    <div>PortfolioPage</div>
+    <div>
+      <TransactionTable transactions={transactions} setTransactions={setTransactions} />   
+    </div>
   )
 }
 

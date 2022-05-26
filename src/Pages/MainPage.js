@@ -23,7 +23,7 @@ function MainPage() {
     <>
         <ResponsiveAppBar />
         <h1>Welcome back, {name}!</h1>
-        <h1>Main</h1>
+        <h2>Main</h2>
         <Routes>
         <Route path = "/Portfolio" element = {<PortfolioPage/>} />
         <Route path = "/Buy" element = {<BuyPage/>} />
