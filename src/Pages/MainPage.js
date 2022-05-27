@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import DataFetch from "../components/DataFetch";
 import {Routes, Route} from "react-router";
 import PortfolioPage from "./PortfolioPage";
 import BuyPage from "./BuyPage";

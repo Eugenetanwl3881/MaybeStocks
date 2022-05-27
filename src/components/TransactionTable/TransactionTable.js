@@ -27,9 +27,10 @@ function TransactionTable(props) {
       {
         symbol: data?.symbol,
         quantity: quantity,
-        price: data?.close,
+        price: data?.latestPrice,
+        total: quantity * data?.latestPrice,
         buysell: "Buy",
-        date: "27/05/2022",
+        date: data?.latestTime,
       },
     ];
     setTransactions(newTransactions);
@@ -78,6 +79,7 @@ function TransactionList(props) {
           <th>Symbol</th>
           <th>Quantity</th>
           <th>Price</th>
+          <th>Total</th>
           <th>Buy/Sell</th>
           <th>Date</th>
         </tr>
@@ -92,6 +94,7 @@ function TransactionList(props) {
             <td>{transaction.symbol}</td>
             <td>{transaction.quantity}</td>
             <td>{transaction.price}</td>
+            <td>{transaction.total}</td>
             <td>{transaction.buysell}</td>
             <td>{transaction.date}</td>
           </tr>
