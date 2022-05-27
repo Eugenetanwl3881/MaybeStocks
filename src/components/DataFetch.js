@@ -13,7 +13,7 @@ class DataFetch extends React.Component {
     const response = await fetch(url);
     const data = await response.json();
     this.setState({ price: data.close, loading: false, companyName: data.companyName });
-    console.log(data);
+    // console.log(data);
   }
 
   render() {

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth, db } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import TransactionTable from "../components/TransactionTable/TransactionTable";
+import useFetch from "../hooks/useFetch";
 
 function PortfolioPage() {
 
@@ -25,11 +26,21 @@ function PortfolioPage() {
         }
         fetchData();
     }, [user.uid]);
+
+    const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/TSLA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
+
+    if (loading) return <h1>Loading...</h1>
   
-  return (
+    return (
+    <>
+    <h1>
+      {data?.companyName} : {data?.close}
+    </h1>
+    
     <div>
       <TransactionTable transactions={transactions} setTransactions={setTransactions} />   
     </div>
+    </>
   )
 }
 
