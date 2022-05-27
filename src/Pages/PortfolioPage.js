@@ -27,18 +27,19 @@ function PortfolioPage() {
         fetchData();
     }, [user.uid]);
 
-    const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/TSLA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
+    const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/DIS/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
+
 
     if (loading) return <h1>Loading...</h1>
-  
+    
     return (
     <>
     <h1>
       {data?.companyName} : {data?.close}
     </h1>
-    
+
     <div>
-      <TransactionTable transactions={transactions} setTransactions={setTransactions} />   
+      <TransactionTable transactions={transactions} setTransactions={setTransactions} data={data} />   
     </div>
     </>
   )
