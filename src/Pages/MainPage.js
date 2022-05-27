@@ -29,7 +29,6 @@ function MainPage() {
         <Route path = "/Buy" element = {<BuyPage/>} />
         <Route path = "/Sell" element = {<SellPage/>} />
         </Routes>
-        <DataFetch/>
     </>
     )
 }
