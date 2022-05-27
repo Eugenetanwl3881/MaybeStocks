@@ -3,10 +3,8 @@ import { useState } from "react";
 import DataFetch from "../DataFetch";
 
 function TransactionTable(props) {
-  const data = new DataFetch();
-  console.log(data);
-
-  const { transactions, setTransactions } = props;
+  
+  const { transactions, setTransactions, data} = props;
 
   const [newTransactionText, setNewTransactionText] = useState("");
 
@@ -27,11 +25,11 @@ function TransactionTable(props) {
       // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
       ...transactions,
       {
-        symbol: "AAPL",
+        symbol: data?.symbol,
         quantity: quantity,
-        price: "555",
+        price: data?.close,
         buysell: "Buy",
-        date: "26/05/2022",
+        date: "27/05/2022",
       },
     ];
     setTransactions(newTransactions);
