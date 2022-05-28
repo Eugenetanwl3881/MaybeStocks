@@ -16,6 +16,11 @@ function BuyInput(props) {
     addBuyTransaction(newBuyTransactionText);
   }
 
+  function round(num) {
+    var m = Number((Math.abs(num) * 100).toPrecision(15));
+    return Math.round(m) / 100 * Math.sign(num);
+  }
+
   function addBuyTransaction(quantity) {
     const newBuyTransactions = [
       // the ... operator is called the spread operator
@@ -27,7 +32,7 @@ function BuyInput(props) {
         symbol: data?.symbol,
         quantity: quantity,
         price: data?.latestPrice,
-        total: quantity * data?.latestPrice,
+        total: round(quantity * data?.latestPrice),
         buysell: "Buy",
         date: data?.latestTime, 
       },
