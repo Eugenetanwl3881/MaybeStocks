@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function useFetch(url) {
     //Only returns data and states you might want to use when you make the API call. Does not return any JSX
