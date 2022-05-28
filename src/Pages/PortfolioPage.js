@@ -30,6 +30,7 @@ function PortfolioPage() {
     const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/BA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
     console.log(data);
 
+
     if (loading) return <h1>Loading...</h1>
     
     return (
