@@ -72,7 +72,7 @@ function BuyPage() {
 
       <form>
         <div>Enter Stock Symbol</div>
-        <input type="text" onChange={handleChange}></input>
+        <input type="text" onChange={handleChange} placeholder="e.g AAPL"></input>
         <button onClick={handleClick} type="submit" variant="contained">
           Search
         </button>
