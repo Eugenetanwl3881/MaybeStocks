@@ -65,7 +65,7 @@ This React Web application will be a one-stop application for our users to pract
 - Week 4 of July: Touchup and Submission of Milestone 3
 
 
-#MockUp:
+## MockUp:
 https://www.figma.com/file/kwfkNxRJy8KPBXeBryCP2p/MileStone1-Jam?node-id=4%3A43
 
 
