@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import {Routes, Route} from "react-router";
 import PortfolioPage from "./PortfolioPage";
+import TransactionsPage from "./TransactionsPage";
 import BuyPage from "./BuyPage";
 import SellPage from "./SellPage";
 import ResponsiveAppBar from "../components/ResponsiveAppBar/ResponsiveAppBar";
+import HomePage from "./HomePage";
 
 function MainPage() {
 
@@ -23,7 +25,9 @@ function MainPage() {
         <ResponsiveAppBar />
         <h1>Welcome back, {name}!</h1>
         <Routes>
+        <Route path = "/Home" element = {<HomePage/>} />
         <Route path = "/Portfolio" element = {<PortfolioPage/>} />
+        <Route path = "/Transactions" element = {<TransactionsPage/>} />
         <Route path = "/Buy" element = {<BuyPage/>} />
         <Route path = "/Sell" element = {<SellPage/>} />
         </Routes>
