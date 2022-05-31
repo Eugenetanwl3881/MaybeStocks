@@ -3,6 +3,8 @@ import { useAuth, db } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import BuyInput from "../components/BuyInput/BuyInput";
 import axios from "axios";
+import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
 
 function BuyPage() {
   const [transactions, setTransactionsState] = useState([]);
@@ -30,7 +32,10 @@ function BuyPage() {
 
   //const [symbol, setSymbol] = useState("AAPL");
   const inputRef = useRef(null);
-  const [data, setData] = useState({companyName:'Enter Symbol Below', latestPrice: null});
+  const [data, setData] = useState({
+    companyName: "Enter Symbol Below",
+    latestPrice: null,
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -42,9 +47,12 @@ function BuyPage() {
     //To prevent the re rendering of entire page
     event.preventDefault();
     setLoading(true);
-
+    console.log("clicked")
+    console.log(inputRef.current.value)
     axios
-      .get(`https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`)
+      .get(
+        `https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
+      )
       .then((response) => {
         setData(response.data);
       })
@@ -54,10 +62,7 @@ function BuyPage() {
       .finally(() => {
         setLoading(false);
       });
-
-      
   }
-
 
   //if (loading) return <h1>Loading...</h1>;
 
@@ -70,10 +75,24 @@ function BuyPage() {
 
       <form>
         <div>Enter Stock Symbol</div>
-        <input type="text"  placeholder="e.g AAPL" ref={inputRef}></input>
-        <button onClick={handleClick} type="submit" variant="contained">
+        <TextField
+         label="Symbol"
+          id="standard-size-normal"
+          variant="standard"
+          type="text"
+          placeholder="e.g AAPL"
+          inputRef={inputRef}
+          sx={{ m: 1 }}
+        ></TextField>
+        <Button
+          variant="contained"
+          onClick={handleClick}
+          type="submit"
+          padding="20px"
+          sx={{ m: 1 }}
+        >
           Search
-        </button>
+        </Button>
       </form>
 
       <div>
