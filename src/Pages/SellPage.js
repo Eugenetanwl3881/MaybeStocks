@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth, db } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import SellInput from "../components/SellInput/SellInput";
@@ -28,14 +28,11 @@ function SellPage() {
         fetchData();
     }, [user.uid]);
 
-    const [symbol, setSymbol] = useState("AAPL");
-    const [data, setData] = useState({companyName:'Enter Symbol Below', latestPrice: 0});
+    const inputRef = useRef(null);
+    const [data, setData] = useState({companyName:'Enter Symbol Below', latestPrice: null});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
   
-    function handleChange(event) {
-      setSymbol(event.target.value);
-    }
   
     function handleClick(event) {
       //To prevent the clearing of the input fields at each click
@@ -43,7 +40,7 @@ function SellPage() {
       setLoading(true);
   
       axios
-        .get(`https://sandbox.iexapis.com/stable/stock/${symbol}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`)
+        .get(`https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`)
         .then((response) => {
           setData(response.data);
         })
@@ -59,7 +56,7 @@ function SellPage() {
 
     //const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/BA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
 
-    if (loading) return <h1>Loading...</h1>
+    //if (loading) return <h1>Loading...</h1>
     
     return (
     <>
@@ -70,7 +67,7 @@ function SellPage() {
 
     <form>
         <div>Enter Stock Symbol</div>
-        <input type="text" onChange={handleChange} placeholder="e.g AAPL"></input>
+        <input type="text" placeholder="e.g AAPL"  ref = {inputRef}></input>
         <button onClick={handleClick} type="submit" variant="contained">
           Search
         </button>
