@@ -48,6 +48,7 @@ function BuyInput(props) {
         <form onSubmit={handleAddBuyTransaction}>
           <input
             label="Quantity"
+            type = "number"
             value={newBuyTransactionText}
             onChange={(event) => setNewBuyTransactionText(event.target.value)}
           />

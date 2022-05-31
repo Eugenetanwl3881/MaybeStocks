@@ -27,20 +27,20 @@ function PortfolioPage() {
         fetchData();
     }, [user.uid]);
 
-    const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/BA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
+    //const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/BA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
     // console.log(data);
 
-    if (loading) return <h1>Loading...</h1>
+    //if (loading) return <h1>Loading...</h1>
     
     return (
     <>
     <h1>Portfolio Page</h1>
     <h1>
-      {data?.companyName} : {data?.latestPrice}
+      Transaction History
     </h1>
 
     <div>
-      <TransactionTable transactions={transactions} setTransactions={setTransactions} data={data} />   
+      <TransactionTable transactions={transactions} setTransactions={setTransactions} />   
     </div>
     </>
   )
