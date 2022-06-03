@@ -19,14 +19,14 @@ function PortfolioPage() {
 
   function setPortfolio(newPortfolios) {
     setPortfolioState(newPortfolios);
-    setDoc(doc(db, "Portfolios", user?.uid), { [portfolio]: newPortfolios });
+    setDoc(doc(db, "Portfolios", user?.uid), { portfolio: newPortfolios });
   }
 
   useEffect(() => {
     async function fetchData() {
       const docSnapshot = await getDoc(doc(db, "Portfolios", user?.uid));
       if (docSnapshot.exists()) {
-        setPortfolioState(docSnapshot.data().portfolio);
+        setPortfolioState(docSnapshot.data().portfolios);
       } else {
         setPortfolioState([]);
       }

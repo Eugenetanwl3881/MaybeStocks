@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 
 function BuyPage() {
   const [transactions, setTransactionsState] = useState([]);
+  const [portfolios, setPortfoliosState] = useState([]);
 
   const { user } = useAuth();
 
@@ -18,6 +19,13 @@ function BuyPage() {
     });
   }
 
+  function setBuyPortfolios(newBuyPortfolios) {
+    setPortfoliosState(newBuyPortfolios);
+    setDoc(doc(db, "Portfolios", user?.uid), {
+      portfolios: newBuyPortfolios,
+    });
+  }
+
   useEffect(() => {
     async function fetchData() {
       const docSnapshot = await getDoc(doc(db, "Transactions", user?.uid));
@@ -25,6 +33,18 @@ function BuyPage() {
         setTransactionsState(docSnapshot.data().transactions);
       } else {
         setTransactionsState([]);
+      }
+    }
+    fetchData();
+  }, [user.uid]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const docSnapshot = await getDoc(doc(db, "Portfolios", user?.uid));
+      if (docSnapshot.exists()) {
+        setPortfoliosState(docSnapshot.data().portfolios);
+      } else {
+        setPortfoliosState([]);
       }
     }
     fetchData();
@@ -99,6 +119,8 @@ function BuyPage() {
         <BuyInput
           transactions={transactions}
           setTransactions={setBuyTransactions}
+          portfolios = {portfolios}
+          setPortfolios={setBuyPortfolios}
           data={data}
         />
       </div>

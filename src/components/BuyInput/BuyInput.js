@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function BuyInput(props) {
   
-  const { transactions, setTransactions, data } = props;
+  const { transactions, setTransactions, portfolios, setPortfolios, data } = props;
 
   const [newBuyTransactionText, setNewBuyTransactionText] = useState("");
 
@@ -14,6 +14,7 @@ function BuyInput(props) {
     // default behaviour here as we don't want to refresh
     event.preventDefault();
     addBuyTransaction(newBuyTransactionText);
+    addBuyPortfolios(newBuyTransactionText);
   }
 
   function round(num) {
@@ -39,6 +40,24 @@ function BuyInput(props) {
     ];
     setTransactions(newBuyTransactions);
     console.log(newBuyTransactions);
+  }
+
+  function addBuyPortfolios(quantity) {
+    const newBuyPortfolios = [
+      // the ... operator is called the spread operator
+      // what we are doing is creating a brand new array of
+      // tasks, that is different from the previous array
+      // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+      ...portfolios,
+      {
+        symbol: data?.symbol,
+        quantity: quantity,
+        avgprice: data?.latestPrice,
+        gainloss:0
+      },
+    ];
+    setPortfolios(newBuyPortfolios);
+    console.log(newBuyPortfolios);
   }
 
   return (
