@@ -8,7 +8,8 @@ import TextField from '@mui/material/TextField';
 
 function BuyPage() {
   const [transactions, setTransactionsState] = useState([]);
-  const [portfolios, setPortfoliosState] = useState([]);
+
+  const [portfoliosMap, setPortfoliosMapState] = useState({});
 
   const { user } = useAuth();
 
@@ -19,11 +20,9 @@ function BuyPage() {
     });
   }
 
-  function setBuyPortfolios(newBuyPortfolios) {
-    setPortfoliosState(newBuyPortfolios);
-    setDoc(doc(db, "Portfolios", user?.uid), {
-      portfolios: newBuyPortfolios,
-    });
+  function setPortfoliosMap(newBuyPortfoliosMap) {
+    setPortfoliosMapState(newBuyPortfoliosMap);
+    setDoc(doc(db, "PortfoliosMap", user?.uid), newBuyPortfoliosMap);
   }
 
   useEffect(() => {
@@ -40,11 +39,11 @@ function BuyPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const docSnapshot = await getDoc(doc(db, "Portfolios", user?.uid));
+      const docSnapshot = await getDoc(doc(db, "PortfoliosMap", user?.uid));
       if (docSnapshot.exists()) {
-        setPortfoliosState(docSnapshot.data().portfolios);
+        setPortfoliosMapState(docSnapshot.data());
       } else {
-        setPortfoliosState([]);
+        setPortfoliosMapState({});
       }
     }
     fetchData();
@@ -119,8 +118,8 @@ function BuyPage() {
         <BuyInput
           transactions={transactions}
           setTransactions={setBuyTransactions}
-          portfolios = {portfolios}
-          setPortfolios={setBuyPortfolios}
+          portfoliosMap={portfoliosMap}
+          setPortfoliosMap={setPortfoliosMap}
           data={data}
         />
       </div>

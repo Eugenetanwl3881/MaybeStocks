@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAuth, db } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import TransactionTable from "../components/TransactionTable/TransactionTable";
-import useFetch from "../hooks/useFetch";
 
 function TransactionsPage() {
 

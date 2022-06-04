@@ -7,7 +7,7 @@ import PortfolioTable from "../components/PortfolioTable/PortfolioTable"
 function PortfolioPage() {
   const [name, setName] = useState("Loading name...");
 
-  const [portfolio, setPortfolioState] = useState([]);
+  const [portfoliosMap, setPortfoliosMapState] = useState([]);
 
   const { user } = useAuth();
 
@@ -17,18 +17,18 @@ function PortfolioPage() {
     }
   }, [user]);
 
-  function setPortfolio(newPortfolios) {
-    setPortfolioState(newPortfolios);
-    setDoc(doc(db, "Portfolios", user?.uid), { portfolio: newPortfolios });
+  function setPortfoliosMap(newPortfoliosMap) {
+    setPortfoliosMapState(newPortfoliosMap);
+    setDoc(doc(db, "PortfoliosMap", user?.uid), { newPortfoliosMap });
   }
 
   useEffect(() => {
     async function fetchData() {
-      const docSnapshot = await getDoc(doc(db, "Portfolios", user?.uid));
+      const docSnapshot = await getDoc(doc(db, "PortfoliosMap", user?.uid));
       if (docSnapshot.exists()) {
-        setPortfolioState(docSnapshot.data().portfolios);
+        setPortfoliosMapState(docSnapshot.data());
       } else {
-        setPortfolioState([]);
+        setPortfoliosMapState({});
       }
     }
     fetchData();
@@ -41,8 +41,8 @@ function PortfolioPage() {
 
       <div>
         <PortfolioTable
-          portfolio={portfolio}
-          setPortfolio={setPortfolio}
+          portfoliosMap={portfoliosMap}
+          setPortfoliosMap={setPortfoliosMap}
         />
       </div>
     </>

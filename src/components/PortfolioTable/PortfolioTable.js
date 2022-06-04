@@ -2,27 +2,41 @@ import * as React from "react";
 
 function PortfolioTable(props) {
   
-  const { portfolio, setPortfolio } = props;
+  const { portfoliosMap, setPortfoliosMap } = props;
+
+  var size = Object.keys(portfoliosMap).length;
 
   return (
     <>
       <div>
         <h2>Portfolio</h2>
-        {portfolio.length > 0 ? (
-          <PortfolioList
-            portfolio={portfolio}
-            setPortfolio={setPortfolio}
-          />
-        ) : (
+        {size > 0 ?
+          (
+            <PortfolioList
+              portfoliosMap={portfoliosMap}
+              setPortfoliosMap={setPortfoliosMap}
+            />
+          ) 
+          : 
+          (
           <p>No stocks yet! Buy some on the top left bar!</p>
-        )}
+          )
+        } 
       </div>
     </>
   );
 }
 
 function PortfolioList(props) {
-  const { portfolio } = props;
+  const { portfoliosMap } = props;
+
+  const array = [];
+  let i = 0;
+  for (const key in portfoliosMap) {
+    console.log(key);
+    array[i] = portfoliosMap[key];
+    i++;
+  }
 
   return (
     <table style={{ margin: "0 auto", width: "100%" }}>
@@ -36,16 +50,16 @@ function PortfolioList(props) {
         </tr>
       </thead>
       <tbody>
-        {portfolio.map((portfolio, index) => (
+        {array.map((p, index) => (
           // We should specify key here to help react identify
           // what has updated
           // https://reactjs.org/docs/lists-and-keys.html#keys
-          <tr key={portfolio.symbol}>
+          <tr key={p.symbol}>
             <td>{index + 1}</td>
-            <td>{portfolio.symbol}</td>
-            <td>{portfolio.quantity}</td>
-            <td>{portfolio.avgprice}</td>
-            <td>{portfolio.gainloss}</td> 
+            <td>{p.symbol}</td>
+            <td>{p.quantity}</td>
+            <td>{p.avgprice}</td>
+            <td>{p.gainloss}</td> 
           </tr>
         ))}
       </tbody>
