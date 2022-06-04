@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function BuyInput(props) {
   
-  const { transactions, setTransactions, portfolios, setPortfolios, data } = props;
+  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, data } = props;
 
   const [newBuyTransactionText, setNewBuyTransactionText] = useState("");
 
@@ -14,7 +14,7 @@ function BuyInput(props) {
     // default behaviour here as we don't want to refresh
     event.preventDefault();
     addBuyTransaction(newBuyTransactionText);
-    addBuyPortfolios(newBuyTransactionText);
+    addBuyPortfoliosMap(newBuyTransactionText);
   }
 
   function round(num) {
@@ -39,26 +39,39 @@ function BuyInput(props) {
       },
     ];
     setTransactions(newBuyTransactions);
-    console.log(newBuyTransactions);
+    // console.log(newBuyTransactions);
   }
 
-  function addBuyPortfolios(quantity) {
-    const newBuyPortfolios = [
-      // the ... operator is called the spread operator
-      // what we are doing is creating a brand new array of
-      // tasks, that is different from the previous array
-      // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-      ...portfolios,
-      {
-        symbol: data?.symbol,
+  function addBuyPortfoliosMap(strquantity) {
+    const quantity = Number(strquantity);
+    if (data?.symbol in portfoliosMap) {
+      const symbol = data?.symbol;
+      const previousValue = portfoliosMap[symbol];
+      const pap = previousValue.avgprice; // previousAvgPrice
+      const pq = previousValue.quantity; // previousQuantity
+      const cap = (data?.latestPrice * quantity + pap * pq) / (pq + quantity)// currentAvgPrice
+      console.log(cap);
+      const newSymbol = {
+        avgprice: cap,
+        gainloss: ((data?.latestPrice - cap)  * 100) / data?.latestPrice,
+        quantity: quantity + pq,
+        symbol: previousValue.symbol,
+        }
+      portfoliosMap[symbol] = newSymbol;
+    } else {
+      const symbol = data?.symbol;
+      const newSymbol = {
+        avgprice: (data?.latestPrice),
+        gainloss: 0,
         quantity: quantity,
-        avgprice: data?.latestPrice,
-        gainloss:0
-      },
-    ];
-    setPortfolios(newBuyPortfolios);
-    console.log(newBuyPortfolios);
+        symbol: (data?.symbol),
+        }
+      portfoliosMap[symbol] = newSymbol;
+    }
+    setPortfoliosMap(portfoliosMap);
   }
+
+  console.log(portfoliosMap);
 
   return (
     <>
