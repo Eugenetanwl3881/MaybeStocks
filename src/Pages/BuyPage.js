@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 function BuyPage() {
   const [transactions, setTransactionsState] = useState([]);
 
-  const [portfoliosMap, setPortfoliosMap] = useState({});
+  const [portfoliosMap, setPortfoliosMapState] = useState({});
 
   const { user } = useAuth();
 
@@ -20,12 +20,10 @@ function BuyPage() {
     });
   }
 
-  // function setBuyPortfoliosMap(newBuyTransactions) {
-  //   setTransactionsState(newBuyTransactions);
-  //   setDoc(doc(db, "Transactions", user?.uid), {
-  //     transactions: newBuyTransactions,
-  //   });
-  // }
+  function setPortfoliosMap(newBuyPortfoliosMap) {
+    setPortfoliosMapState(newBuyPortfoliosMap);
+    setDoc(doc(db, "PortfoliosMap", user?.uid), newBuyPortfoliosMap);
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -43,9 +41,9 @@ function BuyPage() {
     async function fetchData() {
       const docSnapshot = await getDoc(doc(db, "PortfoliosMap", user?.uid));
       if (docSnapshot.exists()) {
-        setPortfoliosMap(docSnapshot.data());
+        setPortfoliosMapState(docSnapshot.data());
       } else {
-        setPortfoliosMap({});
+        setPortfoliosMapState({});
       }
     }
     fetchData();
