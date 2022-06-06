@@ -59,7 +59,6 @@ function BuyPage() {
   useEffect(() => {
     async function fetchData() {
       const docSnapshot = await getDoc(doc(db, "Wallet", user?.uid));
-      console.log(docSnapshot.data().amount);
       if (docSnapshot.exists()) {
         setWalletState(docSnapshot.data().amount);
       } else {
