@@ -11,6 +11,8 @@ function SellPage() {
 
   const [portfoliosMap, setPortfoliosMapState] = useState({});
 
+  const [wallet, setWalletState] = useState(0);
+
   const { user } = useAuth();
 
   function setSellTransactions(newSellTransactions) {
@@ -23,6 +25,11 @@ function SellPage() {
   function setPortfoliosMap(newBuyPortfoliosMap) {
     setPortfoliosMapState(newBuyPortfoliosMap);
     setDoc(doc(db, "PortfoliosMap", user?.uid), newBuyPortfoliosMap);
+  }
+
+  function setWallet(amount) {
+    setWalletState(amount);
+    setDoc(doc(db, "Wallet", user?.uid), { amount });
   }
 
   useEffect(() => {
@@ -48,6 +55,20 @@ function SellPage() {
     }
     fetchData();
   }, [user.uid]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const docSnapshot = await getDoc(doc(db, "Wallet", user?.uid));
+      if (docSnapshot.exists()) {
+        setWalletState(docSnapshot.data().amount);
+      } else {
+        setWalletState(100000);
+      }
+    }
+    fetchData();
+  }, [user.uid]);
+
+  console.log(wallet)
 
   const inputRef = useRef(null);
   const [data, setData] = useState({
@@ -116,6 +137,8 @@ function SellPage() {
           setTransactions={setSellTransactions}
           portfoliosMap={portfoliosMap}
           setPortfoliosMap={setPortfoliosMap}
+          wallet={wallet}
+          setWallet={setWallet}
           data={data}
         />
       </div>

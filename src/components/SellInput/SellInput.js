@@ -3,7 +3,8 @@ import { useState } from "react";
 
 function SellInput(props) {
   
-  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, data } = props;
+  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, 
+  wallet, setWallet, data } = props;
 
   const [newSellTransactionText, setNewSellTransactionText] = useState("");
 
@@ -21,7 +22,9 @@ function SellInput(props) {
     return Math.round(m) / 100 * Math.sign(num);
   }
 
-  function addSellTransaction(quantity) {
+  function addSellTransaction(strquantity) {
+    const quantity = Number(strquantity);
+    const sum = data?.latestPrice * quantity;
     const newSellTransactions = [
       // the ... operator is called the spread operator
       // what we are doing is creating a brand new array of
@@ -38,7 +41,12 @@ function SellInput(props) {
       },
     ];
     setTransactions(newSellTransactions);
-    console.log(newSellTransactions);
+    console.log("Wallet before selling")
+    console.log(wallet);
+    const amount = wallet + sum;
+    console.log("Amount added to wallet")
+    console.log(sum);
+    setWallet(amount);
   }
 
   async function addSellPortfoliosMap(strquantity) {
