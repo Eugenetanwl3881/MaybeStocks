@@ -3,7 +3,8 @@ import { useState } from "react";
 
 function BuyInput(props) {
   
-  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, data } = props;
+  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, 
+  wallet, setWallet, data } = props;
 
   const [newBuyTransactionText, setNewBuyTransactionText] = useState("");
 
@@ -14,7 +15,6 @@ function BuyInput(props) {
     // default behaviour here as we don't want to refresh
     event.preventDefault();
     addBuyTransaction(newBuyTransactionText);
-    addBuyPortfoliosMap(newBuyTransactionText);
   }
 
   function round(num) {
@@ -22,24 +22,36 @@ function BuyInput(props) {
     return Math.round(m) / 100 * Math.sign(num);
   }
 
-  function addBuyTransaction(quantity) {
-    const newBuyTransactions = [
-      // the ... operator is called the spread operator
-      // what we are doing is creating a brand new array of
-      // tasks, that is different from the previous array
-      // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-      ...transactions,
-      {
-        symbol: data?.symbol,
-        quantity: quantity,
-        price: data?.latestPrice,
-        total: round(quantity * data?.latestPrice),
-        buysell: "Buy",
-        date: data?.latestTime, 
-      },
-    ];
-    setTransactions(newBuyTransactions);
-    // console.log(newBuyTransactions);
+  function addBuyTransaction(strquantity) {
+    const quantity = Number(strquantity);
+    const sum = data?.latestPrice * quantity;
+    console.log("Wallet before ifelse " + wallet)
+    if (sum <= wallet) {
+      const newBuyTransactions = [
+        // the ... operator is called the spread operator
+        // what we are doing is creating a brand new array of
+        // tasks, that is different from the previous array
+        // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+        ...transactions,
+        {
+          symbol: data?.symbol,
+          quantity: quantity,
+          price: data?.latestPrice,
+          total: round(quantity * data?.latestPrice),
+          buysell: "Buy",
+          date: data?.latestTime, 
+        },
+      ];
+      setTransactions(newBuyTransactions);
+      addBuyPortfoliosMap(quantity);
+      console.log("Wallet before buying" + wallet);
+      const amount = wallet - sum;
+      console.log("Amount deduected =" + amount);
+      setWallet(amount);
+    } else {
+      console.log("Not enough money.")
+    }
+    
   }
 
   function addBuyPortfoliosMap(strquantity) {
@@ -50,7 +62,6 @@ function BuyInput(props) {
       const pap = previousValue.avgprice; // previousAvgPrice
       const pq = previousValue.quantity; // previousQuantity
       const cap = (data?.latestPrice * quantity + pap * pq) / (pq + quantity)// currentAvgPrice
-      console.log(cap);
       const newSymbol = {
         avgprice: cap,
         gainloss: ((data?.latestPrice - cap)  * 100) / data?.latestPrice,

@@ -11,6 +11,8 @@ function BuyPage() {
 
   const [portfoliosMap, setPortfoliosMapState] = useState({});
 
+  const [wallet, setWalletState] = useState(0);
+
   const { user } = useAuth();
 
   function setBuyTransactions(newBuyTransactions) {
@@ -23,6 +25,11 @@ function BuyPage() {
   function setPortfoliosMap(newBuyPortfoliosMap) {
     setPortfoliosMapState(newBuyPortfoliosMap);
     setDoc(doc(db, "PortfoliosMap", user?.uid), newBuyPortfoliosMap);
+  }
+
+  function setWallet(amount) {
+    setWalletState(amount);
+    setDoc(doc(db, "Wallet", user?.uid), { amount });
   }
 
   useEffect(() => {
@@ -48,6 +55,21 @@ function BuyPage() {
     }
     fetchData();
   }, [user.uid]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const docSnapshot = await getDoc(doc(db, "Wallet", user?.uid));
+      console.log(docSnapshot.data().amount);
+      if (docSnapshot.exists()) {
+        setWalletState(docSnapshot.data().amount);
+      } else {
+        setWalletState(100000);
+      }
+    }
+    fetchData();
+  }, [user.uid]);
+
+  console.log("wallet on Buy Page " + wallet);
 
   //const [symbol, setSymbol] = useState("AAPL");
   const inputRef = useRef(null);
@@ -121,6 +143,8 @@ function BuyPage() {
           setTransactions={setBuyTransactions}
           portfoliosMap={portfoliosMap}
           setPortfoliosMap={setPortfoliosMap}
+          wallet={wallet}
+          setWallet={setWallet}
           data={data}
         />
       </div>
