@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function SellInput(props) {
   
-  const { transactions, setTransactions, data } = props;
+  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, data } = props;
 
   const [newSellTransactionText, setNewSellTransactionText] = useState("");
 
@@ -14,6 +14,7 @@ function SellInput(props) {
     // default behaviour here as we don't want to refresh
     event.preventDefault();
     addSellTransaction(newSellTransactionText);
+    addSellPortfoliosMap(newSellTransactionText);
   }
 
   function round(num) {
@@ -39,6 +40,32 @@ function SellInput(props) {
     ];
     setTransactions(newSellTransactions);
     console.log(newSellTransactions);
+  }
+
+  async function addSellPortfoliosMap(strquantity) {
+    const quantity = Number(strquantity);
+    const symbol = data?.symbol;
+    if (data?.symbol in portfoliosMap) {
+      const previousValue = portfoliosMap[symbol];
+      const pq = previousValue.quantity; // previousQuantity
+      if (pq - quantity > 0) {
+        const pap = previousValue.avgprice; // previousAvgPrice
+        const newSymbol = {
+          avgprice: pap,
+          gainloss: ((data?.latestPrice - pap)  * 100) / data?.latestPrice,
+          quantity: pq - quantity,
+          symbol: previousValue.symbol,
+          }
+        portfoliosMap[symbol] = newSymbol;
+      } else if (pq === quantity) {
+        delete portfoliosMap[symbol];
+      } else {
+        console.log("Not enough stocks to sell");
+      }
+    } else {
+      console.log("Have not bought any of these stocks")
+    }
+    setPortfoliosMap(portfoliosMap);
   }
 
   return (

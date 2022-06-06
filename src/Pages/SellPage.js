@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth, db } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import SellInput from "../components/SellInput/SellInput";
-import useFetch from "../hooks/useFetch";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
 
 function SellPage() {
   const [transactions, setTransactionsState] = useState([]);
+
+  const [portfoliosMap, setPortfoliosMapState] = useState({});
 
   const { user } = useAuth();
 
@@ -17,6 +18,11 @@ function SellPage() {
     setDoc(doc(db, "Transactions", user?.uid), {
       transactions: newSellTransactions,
     });
+  }
+
+  function setPortfoliosMap(newBuyPortfoliosMap) {
+    setPortfoliosMapState(newBuyPortfoliosMap);
+    setDoc(doc(db, "PortfoliosMap", user?.uid), newBuyPortfoliosMap);
   }
 
   useEffect(() => {
@@ -31,11 +37,24 @@ function SellPage() {
     fetchData();
   }, [user.uid]);
 
+  useEffect(() => {
+    async function fetchData() {
+      const docSnapshot = await getDoc(doc(db, "PortfoliosMap", user?.uid));
+      if (docSnapshot.exists()) {
+        setPortfoliosMapState(docSnapshot.data());
+      } else {
+        setPortfoliosMapState({});
+      }
+    }
+    fetchData();
+  }, [user.uid]);
+
   const inputRef = useRef(null);
   const [data, setData] = useState({
     companyName: "Enter Symbol Below",
     latestPrice: null,
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -95,6 +114,8 @@ function SellPage() {
         <SellInput
           transactions={transactions}
           setTransactions={setSellTransactions}
+          portfoliosMap={portfoliosMap}
+          setPortfoliosMap={setPortfoliosMap}
           data={data}
         />
       </div>

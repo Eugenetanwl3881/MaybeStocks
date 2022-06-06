@@ -33,7 +33,6 @@ function PortfolioList(props) {
   const array = [];
   let i = 0;
   for (const key in portfoliosMap) {
-    console.log(key);
     array[i] = portfoliosMap[key];
     i++;
   }
