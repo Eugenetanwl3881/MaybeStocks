@@ -55,6 +55,7 @@ function BuyPage() {
     companyName: "Enter Symbol Below",
     latestPrice: null,
   });
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
