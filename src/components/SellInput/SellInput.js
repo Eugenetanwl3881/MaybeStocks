@@ -13,7 +13,6 @@ function SellInput(props) {
     // submit AND refresh the page. So we override the
     // default behaviour here as we don't want to refresh
     event.preventDefault();
-    addSellTransaction(newSellTransactionText);
     addSellPortfoliosMap(newSellTransactionText);
   }
 
@@ -57,8 +56,10 @@ function SellInput(props) {
           symbol: previousValue.symbol,
           }
         portfoliosMap[symbol] = newSymbol;
+        addSellTransaction(strquantity);
       } else if (pq === quantity) {
         delete portfoliosMap[symbol];
+        addSellTransaction(strquantity);
       } else {
         console.log("Not enough stocks to sell");
       }
