@@ -42,7 +42,7 @@ function TransactionList(props) {
           // We should specify key here to help react identify
           // what has updated
           // https://reactjs.org/docs/lists-and-keys.html#keys
-          <tr key={transaction.symbol}>
+          <tr key={index}>
             <td>{index + 1}</td>
             <td>{transaction.symbol}</td>
             <td>{transaction.quantity}</td>
