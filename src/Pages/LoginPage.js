@@ -1,18 +1,19 @@
 import { useAuth } from "../hooks/useAuth";
 import Button from '@mui/material/Button';
+import SignUp from "../components/SignUp/SignUp";
+import SignIn from "../components/SignIn/SignIn";
 
 function LoginPage() {
     const { signInWithGoogle } = useAuth();
 
     return(
     <>
-        <h1>Banner NavBar for login</h1>
-        <h1>Login</h1>
-        <Button variant="contained" 
-                color="primary"
-                onClick={signInWithGoogle}>
-                    Sign in with Google
-                </Button>
+        <SignUp />
+        <h2>Login</h2>
+        <SignIn />
+        <Button variant="contained" color="primary" onClick={signInWithGoogle}>
+            Sign in with Google
+        </Button>
     </>
     )
 }
