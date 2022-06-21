@@ -16,7 +16,7 @@ function NewsPage() {
   useEffect(() => {
     const loadNews = async () => {
       const response = await axios.get(
-        "https://newsapi.org/v2/everything?q=Apple&from=2022-06-20&sortBy=popularity&apiKey=3da128da75bb4e819bb876090635ca8f"
+        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f03b9730518d4553b7f4cc3d62845a07"
       );
       setNews(response.data.articles);
     };
@@ -50,19 +50,6 @@ function NewsPage() {
                   <Button size="small">Read More</Button>
                 </a>
               </CardActions>
-              {/* 
-            <Card
-              key={index}
-              hoverable
-              style={{ width: "50%" }}
-              cover={<img alt="image" src={item.urlToImage} width = {null} height = {400} flex={1} />}
-            >
-              <Meta title={item.title} description={item.content} />
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                <Button type="primary" style={{ marginTop: "10px" }}>
-                  Read More
-                </Button>
-              </a> */}
             </Card>
           );
         })}
