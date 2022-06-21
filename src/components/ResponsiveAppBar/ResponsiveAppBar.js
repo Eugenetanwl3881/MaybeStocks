@@ -16,7 +16,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { Link } from "react-router-dom";
  
 
-const pages = ['Home','Portfolio','Transactions', 'Buy', 'Sell'];
+const pages = ['Home','Portfolio','Transactions', 'Buy', 'Sell','News'];
 const settings = [];
 
 const ResponsiveAppBar = () => {

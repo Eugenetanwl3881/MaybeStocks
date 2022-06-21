@@ -6,7 +6,6 @@ function HomePage() {
     <>
       <h1>HomePage</h1>
       <h2>WatchList</h2>
-      <NewsPage/>
     </>
   );
 }
