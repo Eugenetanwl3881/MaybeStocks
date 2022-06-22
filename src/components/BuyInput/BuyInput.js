@@ -25,7 +25,6 @@ function BuyInput(props) {
   function addBuyTransaction(strquantity) {
     const quantity = Number(strquantity);
     const sum = data?.latestPrice * quantity;
-    console.log("Wallet before ifelse " + wallet)
     if (sum <= wallet) {
       const newBuyTransactions = [
         // the ... operator is called the spread operator
@@ -44,9 +43,7 @@ function BuyInput(props) {
       ];
       setTransactions(newBuyTransactions);
       addBuyPortfoliosMap(quantity);
-      console.log("Wallet before buying" + wallet);
       const amount = wallet - sum;
-      console.log("Amount deduected =" + amount);
       setWallet(amount);
     } else {
       console.log("Not enough money.")

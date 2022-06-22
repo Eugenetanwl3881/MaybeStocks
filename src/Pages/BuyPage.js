@@ -68,8 +68,6 @@ function BuyPage() {
     fetchData();
   }, [user.uid]);
 
-  console.log("wallet on Buy Page " + wallet);
-
   //const [symbol, setSymbol] = useState("AAPL");
   const inputRef = useRef(null);
   const [data, setData] = useState({
