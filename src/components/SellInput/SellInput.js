@@ -41,10 +41,8 @@ function SellInput(props) {
       },
     ];
     setTransactions(newSellTransactions);
-    console.log("Wallet before selling")
     console.log(wallet);
     const amount = wallet + sum;
-    console.log("Amount added to wallet")
     console.log(sum);
     setWallet(amount);
   }

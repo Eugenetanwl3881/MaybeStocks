@@ -86,8 +86,6 @@ function BuyPage() {
     //To prevent the re rendering of entire page
     event.preventDefault();
     setLoading(true);
-    console.log("clicked")
-    console.log(inputRef.current.value)
     axios
       .get(
         `https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
  
 
-const pages = ['Home','Portfolio','Transactions', 'Buy', 'Sell','News'];
+const pages = ['Home','Portfolio','Transactions', 'Buy', 'Sell','News', 'Chat'];
 const settings = [];
 
 const ResponsiveAppBar = () => {
@@ -138,7 +138,7 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-          
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
