@@ -79,7 +79,7 @@ function BuyInput(props) {
     setPortfoliosMap(portfoliosMap);
   }
 
-  // console.log(portfoliosMap);
+  // console.log(typeof(portfoliosMap));
 
   return (
     <>

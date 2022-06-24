@@ -68,8 +68,6 @@ function SellPage() {
     fetchData();
   }, [user.uid]);
 
-  console.log(wallet)
-
   const inputRef = useRef(null);
   const [data, setData] = useState({
     companyName: "Enter Symbol Below",
