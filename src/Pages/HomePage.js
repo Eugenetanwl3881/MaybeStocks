@@ -3,7 +3,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
 import WatchlistTable from "../components/WatchlistTable/WatchlistTable";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 
 function HomePage() {
@@ -17,7 +19,7 @@ function HomePage() {
     setWatchlistState(newWatchlist);
     setDoc(doc(db, "Watchlist", user?.uid), newWatchlist);
   }
-  
+
   useEffect(() => {
     async function fetchData() {
       const docSnapshot = await getDoc(doc(db, "Watchlist", user?.uid));
@@ -43,51 +45,65 @@ function HomePage() {
   }, [user?.uid, wallet]);
 
   const inputRef = useRef(null);
-  const [data, setData] = useState({
-    companyName: "Enter Symbol Below",
-    latestPrice: null,
-  });
+  let data = {};
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  function handleSubmitClick(event) {
+  async function handleSubmitClick(event) {
     //To prevent the re rendering of entire page
     event.preventDefault();
-    setLoading(true);
-    axios
-      .get(
-        `https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
-      )
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    if (!loading && error === null) {
-      console.log("click");
-      console.log(watchlist);
-      addWatchlist(inputRef.current.value);
+    if (inputRef.current.value === "") {
+      console.log("Invalid stock");
+    } else {
+      axios
+        .get(
+          `https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
+        )
+        .then((response) => {
+          data = response.data;
+          addWatchlist(inputRef.current.value);
+        })
+        .catch((err) => {
+          setError(err);
+          console.log(err);
+        });
     }
   }
 
   function addWatchlist(symbol) {
     if (symbol in watchlist) {
-      console.log("Symbol already in watchlist")
+      console.log("Symbol already in watchlist");
     } else {
       const newWatchlist = {
         symbol: symbol,
         latestPrice: data?.latestPrice,
         dailyPercentChange: data?.changePercent,
-      }
+      };
       watchlist[symbol] = newWatchlist;
       setWatchlist(watchlist);
     }
+  }
+
+  // Bug doesnt referesh all the stocks cos we are sending too many requests at 
+  // one time to the API, causing 429 error
+  // AxiosError {message: 'Request failed with status code 429'}
+  function handleRefresh(e) {
+    e.preventDefault();
+    for (let stock in watchlist) {
+      axios
+        .get(
+          `https://sandbox.iexapis.com/stable/stock/${stock}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
+        )
+        .then((response) => {
+          watchlist[stock].latestPrice = response.data.latestPrice;
+          watchlist[stock].dailyPercentChange = response.data.changePercent;
+        })
+        .catch((err) => {
+          console.log(stock);
+          console.log(err);
+        });
+    }
+    setWatchlist(watchlist);
   }
 
   function round(num) {
@@ -100,7 +116,12 @@ function HomePage() {
       <h1>HomePage</h1>
       <h1>You currently have</h1>
       <h1>${round(wallet)}</h1>
-      <WatchlistTable watchlist={watchlist}/>
+
+      <IconButton color="primary" onClick={handleRefresh} aria-label="refresh">
+        <RefreshIcon />
+      </IconButton>
+
+      <WatchlistTable watchlist={watchlist} />
 
       <form>
         <div>Enter Stock Symbol</div>
