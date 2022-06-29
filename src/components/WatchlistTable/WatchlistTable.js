@@ -136,7 +136,18 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected, watchlist, setWatchlist, selected, refresh, setRefreshState} = props;
+  
+  function handleDelete() {
+    // console.log("Selected :", selected)
+    for(let i = 0 ; i < selected.length ; i ++) {
+      delete watchlist[selected[i]];
+    }
+    console.log(watchlist);
+    setWatchlist(watchlist);
+    setRefreshState(!refresh);
+  }
+
 
   return (
     <Toolbar
@@ -174,14 +185,14 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+           
           </IconButton>
         </Tooltip>
       )}
@@ -194,7 +205,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function WatchlistTable(props) {
-  const { watchlist } = props;
+  const { watchlist, setWatchlist, refresh, setRefreshState } = props;
 
   const rows = [];
 
@@ -244,6 +255,7 @@ export default function WatchlistTable(props) {
     }
 
     setSelected(newSelected);
+ 
   };
 
   const handleChangePage = (event, newPage) => {
@@ -269,7 +281,7 @@ export default function WatchlistTable(props) {
     <>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar numSelected={selected.length} watchlist={watchlist} setWatchlist={setWatchlist} selected={selected} refresh={refresh} setRefreshState={setRefreshState} />
           <TableContainer>
             <Table
               sx={{ minWidth: 750 }}

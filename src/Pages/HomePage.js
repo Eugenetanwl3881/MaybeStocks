@@ -138,7 +138,9 @@ function HomePage() {
       </IconButton>
 
       {/* We did this because we want the watchlist table to refresh everytime we click the refresh button or add button*/}
-      {refresh ? <WatchlistTable watchlist={watchlist} /> : <WatchlistTable watchlist={watchlist} />}
+      {refresh 
+      ? <WatchlistTable watchlist={watchlist} setWatchlist={setWatchlist} refresh={refresh} setRefreshState={setRefreshState}/> 
+      : <WatchlistTable watchlist={watchlist} setWatchlist={setWatchlist} refresh={refresh} setRefreshState = {setRefreshState}/>}
       
       <form>
         <div>Enter Stock Symbol</div>
