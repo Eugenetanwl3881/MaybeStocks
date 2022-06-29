@@ -15,6 +15,8 @@ function HomePage() {
 
   const [wallet, setWalletState] = useState(0);
 
+  const [refresh, setRefreshState] = useState(true);
+
   function setWatchlist(newWatchlist) {
     setWatchlistState(newWatchlist);
     setDoc(doc(db, "Watchlist", user?.uid), newWatchlist);
@@ -66,6 +68,8 @@ function HomePage() {
         .catch((err) => {
           setError(err);
           console.log(err);
+        }).finally(() => {
+          setRefreshState(!refresh);
         });
     }
   }
@@ -84,11 +88,18 @@ function HomePage() {
     }
   }
 
+
   // Bug doesnt referesh all the stocks cos we are sending too many requests at 
   // one time to the API, causing 429 error
   // AxiosError {message: 'Request failed with status code 429'}
-  function handleRefresh(e) {
+  async function handleRefresh(e) {
     e.preventDefault();
+    
+ 
+    function apiRequestDelay(ms)  {
+      return new Promise( resolve => { setTimeout(resolve, ms); });
+    }
+
     for (let stock in watchlist) {
       axios
         .get(
@@ -101,7 +112,12 @@ function HomePage() {
         .catch((err) => {
           console.log(stock);
           console.log(err);
+        }).finally(() => {
+          setRefreshState(!refresh);
         });
+      
+      // Prevents 429 error as API is called too quickly. Just a short delay before each call
+      await apiRequestDelay(100);
     }
     setWatchlist(watchlist);
   }
@@ -121,8 +137,9 @@ function HomePage() {
         <RefreshIcon />
       </IconButton>
 
-      <WatchlistTable watchlist={watchlist} />
-
+      {/* We did this because we want the watchlist table to refresh everytime we click the refresh button or add button*/}
+      {refresh ? <WatchlistTable watchlist={watchlist} /> : <WatchlistTable watchlist={watchlist} />}
+      
       <form>
         <div>Enter Stock Symbol</div>
         <TextField
