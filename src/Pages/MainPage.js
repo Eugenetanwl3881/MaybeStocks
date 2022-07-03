@@ -8,6 +8,7 @@ import SellPage from "./SellPage";
 import ResponsiveAppBar from "../components/ResponsiveAppBar/ResponsiveAppBar";
 import HomePage from "./HomePage";
 import NewsPage from "./NewsPage";
+import ForumPage from "./ForumPage";
 
 function MainPage() {
 
@@ -32,6 +33,7 @@ function MainPage() {
         <Route path = "/Buy" element = {<BuyPage/>} />
         <Route path = "/Sell" element = {<SellPage/>} />
         <Route path = "/News" element = {<NewsPage/>} />
+        <Route path = "/Forum" element = {<ForumPage/>} />
         </Routes>
     </>
     )
