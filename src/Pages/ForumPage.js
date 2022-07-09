@@ -5,6 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
 import { useAuth, db } from "../hooks/useAuth";
+import { Text } from "react";
+
 import {
   query,
   onSnapshot,
@@ -13,6 +15,7 @@ import {
   doc,
   getDoc,
   addDoc,
+  setDoc,
   serverTimestamp,
   updateDoc,
   arrayUnion,
@@ -24,27 +27,34 @@ function ForumPage() {
   const [messages, setMessagesState] = useState([]);
   // This will store the current text in the input box
   const [newText, setNewTextState] = useState("");
+
   const { user } = useAuth();
 
   useEffect(() => {
-    async function fetchData() {
-      const docRef = doc(db, "Messages", "general");
-      const docSnapshot = await getDoc(docRef);
-      if (docSnapshot.exists()) {
-        let sortedByTime = [];
-        for (const key in docSnapshot.data()) {
-          sortedByTime.push(docSnapshot.data()[key]);
-        }
-        sortedByTime.sort(function (a, b) {
-          return a.time - b.time;
+    const colRef = collection(db, "Messages");
+    const q = query(colRef, orderBy("time"));
+    function fetchData() {
+      onSnapshot(q, (querySnapshot) => {
+        const allMessages = [];
+        querySnapshot.forEach((doc) => {
+          allMessages.push(doc.data());
         });
-        setMessagesState(sortedByTime);
-      } else {
-        setMessagesState([]);
-      }
+        setMessagesState(allMessages);
+      });
     }
     fetchData();
-  }, []);
+  }, [db]);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    const colRef = collection(db, "Messages");
+    await addDoc(colRef, {
+      text: newText,
+      time: serverTimestamp(),
+      username: user?.displayName,
+    });
+    setNewTextState("");
+  };
 
   return (
     <>
@@ -54,11 +64,19 @@ function ForumPage() {
           direction="column"
           justifyContent="space-evenly"
           alignItems="stretch"
+          sx={{
+            border: 1,
+            m: 2,
+            p: 1,
+            borderRadius: 2,
+            width: 1 / 4,
+            mx: "auto",
+          }}
         >
-          {obj.username + ": " + obj.message}
+          {obj.username + ": " + obj.text}
+          <text>{obj.time.toDate().toString()}</text>
         </Grid>
       ))}
-
       <form>
         <Box
           component="form"
@@ -79,8 +97,13 @@ function ForumPage() {
               id="outlined-textarea"
               label="Enter your message here"
               multiline
+              onChange={(event) => setNewTextState(event.target.value)}
             />
-            <IconButton color="primary" aria-label="submit">
+            <IconButton
+              color="primary"
+              aria-label="submit"
+              onClick={sendMessage}
+            >
               <SendIcon fontSize="large" />
             </IconButton>
           </div>
