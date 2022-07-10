@@ -1,12 +1,21 @@
 import * as React from "react";
 import { useState } from "react";
+import Popup from "../Popup/Popup";
 
 function BuyInput(props) {
-  
-  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, 
-  wallet, setWallet, data } = props;
+  const {
+    transactions,
+    setTransactions,
+    portfoliosMap,
+    setPortfoliosMap,
+    wallet,
+    setWallet,
+    data,
+  } = props;
 
   const [newBuyTransactionText, setNewBuyTransactionText] = useState("");
+  const [successPopup, setSuccessPopup] = useState(false);
+  const [failurePopup, setFailurePopup] = useState(false);
 
   function handleAddBuyTransaction(event) {
     // React honours default browser behavior and the
@@ -19,7 +28,7 @@ function BuyInput(props) {
 
   function round(num) {
     var m = Number((Math.abs(num) * 100).toPrecision(15));
-    return Math.round(m) / 100 * Math.sign(num);
+    return (Math.round(m) / 100) * Math.sign(num);
   }
 
   function addBuyTransaction(strquantity) {
@@ -38,17 +47,18 @@ function BuyInput(props) {
           price: data?.latestPrice,
           total: round(quantity * data?.latestPrice),
           buysell: "Buy",
-          date: data?.latestTime, 
+          date: data?.latestTime,
         },
       ];
       setTransactions(newBuyTransactions);
       addBuyPortfoliosMap(quantity);
       const amount = wallet - sum;
       setWallet(amount);
+      setSuccessPopup(true);
     } else {
-      console.log("Not enough money.")
+      console.log("Not enough money.");
+      setFailurePopup(true);
     }
-    
   }
 
   function addBuyPortfoliosMap(strquantity) {
@@ -58,22 +68,22 @@ function BuyInput(props) {
       const previousValue = portfoliosMap[symbol];
       const pap = previousValue.avgprice; // previousAvgPrice
       const pq = previousValue.quantity; // previousQuantity
-      const cap = (data?.latestPrice * quantity + pap * pq) / (pq + quantity)// currentAvgPrice
+      const cap = (data?.latestPrice * quantity + pap * pq) / (pq + quantity); // currentAvgPrice
       const newSymbol = {
         avgprice: cap,
-        gainloss: ((data?.latestPrice - cap)  * 100) / data?.latestPrice,
+        gainloss: ((data?.latestPrice - cap) * 100) / data?.latestPrice,
         quantity: quantity + pq,
         symbol: previousValue.symbol,
-        }
+      };
       portfoliosMap[symbol] = newSymbol;
     } else {
       const symbol = data?.symbol;
       const newSymbol = {
-        avgprice: (data?.latestPrice),
+        avgprice: data?.latestPrice,
         gainloss: 0,
         quantity: quantity,
-        symbol: (data?.symbol),
-        }
+        symbol: data?.symbol,
+      };
       portfoliosMap[symbol] = newSymbol;
     }
     setPortfoliosMap(portfoliosMap);
@@ -88,7 +98,7 @@ function BuyInput(props) {
         <form onSubmit={handleAddBuyTransaction}>
           <input
             label="Quantity"
-            type = "number"
+            type="number"
             value={newBuyTransactionText}
             onChange={(event) => setNewBuyTransactionText(event.target.value)}
           />
@@ -97,6 +107,16 @@ function BuyInput(props) {
           </button>
         </form>
       </div>
+
+      <Popup trigger={successPopup} setTrigger={setSuccessPopup}>
+        <h2>Success</h2>
+        <div>Buy Transaction Succesful</div>
+      </Popup>
+
+      <Popup trigger={failurePopup} setTrigger={setFailurePopup}>
+        <h2>Failure</h2>
+        <div>Not enough money.</div>
+      </Popup>
     </>
   );
 }

@@ -1,12 +1,22 @@
 import * as React from "react";
 import { useState } from "react";
+import Popup from "../Popup/Popup";
 
 function SellInput(props) {
-  
-  const { transactions, setTransactions, portfoliosMap, setPortfoliosMap, 
-  wallet, setWallet, data } = props;
+  const {
+    transactions,
+    setTransactions,
+    portfoliosMap,
+    setPortfoliosMap,
+    wallet,
+    setWallet,
+    data,
+  } = props;
 
   const [newSellTransactionText, setNewSellTransactionText] = useState("");
+  const [successPopup, setSuccessPopup] = useState(false);
+  const [failurePopup, setFailurePopup] = useState(false);
+  const [failurePopupText, setFailurePopupText] = useState("");
 
   function handleAddSellTransaction(event) {
     // React honours default browser behavior and the
@@ -19,7 +29,7 @@ function SellInput(props) {
 
   function round(num) {
     var m = Number((Math.abs(num) * 100).toPrecision(15));
-    return Math.round(m) / 100 * Math.sign(num);
+    return (Math.round(m) / 100) * Math.sign(num);
   }
 
   function addSellTransaction(strquantity) {
@@ -37,14 +47,14 @@ function SellInput(props) {
         price: data?.latestPrice,
         total: round(quantity * data?.latestPrice),
         buysell: "Sell",
-        date: data?.latestTime, 
+        date: data?.latestTime,
       },
     ];
     setTransactions(newSellTransactions);
-    console.log("Wallet before selling")
+    console.log("Wallet before selling");
     console.log(wallet);
     const amount = wallet + sum;
-    console.log("Amount added to wallet")
+    console.log("Amount added to wallet");
     console.log(sum);
     setWallet(amount);
   }
@@ -59,20 +69,26 @@ function SellInput(props) {
         const pap = previousValue.avgprice; // previousAvgPrice
         const newSymbol = {
           avgprice: pap,
-          gainloss: ((data?.latestPrice - pap)  * 100) / data?.latestPrice,
+          gainloss: ((data?.latestPrice - pap) * 100) / data?.latestPrice,
           quantity: pq - quantity,
           symbol: previousValue.symbol,
-          }
+        };
         portfoliosMap[symbol] = newSymbol;
         addSellTransaction(strquantity);
+        setSuccessPopup(true);
       } else if (pq === quantity) {
         delete portfoliosMap[symbol];
         addSellTransaction(strquantity);
+        setSuccessPopup(true);
       } else {
         console.log("Not enough stocks to sell");
+        setFailurePopupText("Not enough stocks to sell");
+        setFailurePopup(true);
       }
     } else {
-      console.log("Have not bought any of these stocks")
+      console.log("You do not own any of this stock currently");
+      setFailurePopupText("You do not own any of this stock currently");
+      setFailurePopup(true);
     }
     setPortfoliosMap(portfoliosMap);
   }
@@ -84,7 +100,7 @@ function SellInput(props) {
         <form onSubmit={handleAddSellTransaction}>
           <input
             label="Quantity"
-            type = "number"
+            type="number"
             value={newSellTransactionText}
             onChange={(event) => setNewSellTransactionText(event.target.value)}
           />
@@ -93,6 +109,16 @@ function SellInput(props) {
           </button>
         </form>
       </div>
+
+      <Popup trigger={successPopup} setTrigger={setSuccessPopup}>
+        <h2>Success</h2>
+        <div>Sell Transaction Succesful</div>
+      </Popup>
+
+      <Popup trigger={failurePopup} setTrigger={setFailurePopup}>
+        <h2>Failure</h2>
+        <div>{failurePopupText}</div>
+      </Popup>
     </>
   );
 }
