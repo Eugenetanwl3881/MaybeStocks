@@ -5,28 +5,21 @@ import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
 import { useAuth, db } from "../hooks/useAuth";
-import { Text } from "react";
 
 import {
   query,
   onSnapshot,
   orderBy,
   collection,
-  doc,
-  getDoc,
   addDoc,
-  setDoc,
   serverTimestamp,
-  updateDoc,
-  arrayUnion,
-  getDocs,
 } from "firebase/firestore";
 
 function ForumPage() {
   // This is how we update firestore
   const [messages, setMessagesState] = useState([]);
   // This will store the current text in the input box
-  const [newText, setNewTextState] = useState("");
+  const [newText, setNewTextState] = useState("placeholder");
 
   const { user } = useAuth();
 
@@ -43,17 +36,18 @@ function ForumPage() {
       });
     }
     fetchData();
-  }, [db]);
+  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();
     const colRef = collection(db, "Messages");
-    await addDoc(colRef, {
-      text: newText,
-      time: serverTimestamp(),
-      username: user?.displayName,
-    });
-    setNewTextState("");
+    if (newText !== "") {
+      await addDoc(colRef, {
+        text: newText,
+        time: serverTimestamp(),
+        username: user?.displayName,
+      });
+    }
   };
 
   return (
@@ -104,6 +98,8 @@ function ForumPage() {
               label="Enter your message here"
               multiline
               onChange={(event) => setNewTextState(event.target.value)}
+              error={newText === ""}
+              helperText={newText === "" ? "Empty field!" : " "}
             />
             <IconButton
               color="primary"
