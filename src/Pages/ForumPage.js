@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
 import { useAuth, db } from "../hooks/useAuth";
+import Popup from "../components/Popup/Popup";
 
 import {
   query,
@@ -19,7 +20,9 @@ function ForumPage() {
   // This is how we update firestore
   const [messages, setMessagesState] = useState([]);
   // This will store the current text in the input box
-  const [newText, setNewTextState] = useState("placeholder");
+  const [newText, setNewTextState] = useState("");
+  const [failurePopup, setFailurePopup] = useState(false);
+  const scrollDown = useRef();
 
   const { user } = useAuth();
 
@@ -47,8 +50,20 @@ function ForumPage() {
         time: serverTimestamp(),
         username: user?.displayName,
       });
+    } else {
+      setFailurePopup(true);
     }
   };
+
+  useEffect(() => {
+    setTimeout(
+      scrollDown.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      }),
+      100
+    );
+  }, [messages]);
 
   return (
     <>
@@ -92,14 +107,13 @@ function ForumPage() {
               alignItems: "center",
               flexWrap: "wrap",
             }}
+            ref={scrollDown}
           >
             <TextField
               id="outlined-textarea"
               label="Enter your message here"
               multiline
               onChange={(event) => setNewTextState(event.target.value)}
-              error={newText === ""}
-              helperText={newText === "" ? "Empty field!" : " "}
             />
             <IconButton
               color="primary"
@@ -111,6 +125,11 @@ function ForumPage() {
           </div>
         </Box>
       </form>
+
+      <Popup trigger={failurePopup} setTrigger={setFailurePopup}>
+        <h2>Empty field!</h2>
+        <div>Please type in a message.</div>
+      </Popup>
     </>
   );
 }
