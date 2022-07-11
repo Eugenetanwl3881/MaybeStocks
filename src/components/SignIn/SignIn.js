@@ -19,7 +19,7 @@ function SignIn() {
             console.log(user);
         } catch (error) {
             console.log(error);
-            setError("Account cannot be created!");
+            setError("Wrong email/password!");
         }
         setLoading(false);
         
