@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
+import { updateProfile } from "firebase/auth";
 
 function SignUp() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmRef = useRef();
+    const nameRef = useRef();
     const { signup } = useAuth();
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -21,6 +23,7 @@ function SignUp() {
             setError("");
             setLoading(true);
             const user = await signup(emailRef.current.value, passwordRef.current.value);
+            updateProfile(user, { displayName: nameRef.current.value});
             console.log(user);
         } catch (error) {
             console.log(error);
@@ -40,6 +43,10 @@ function SignUp() {
                        <Form.Group id="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" ref={emailRef} required />  
+                        </Form.Group>
+                        <Form.Group id="username">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="usename" ref={nameRef} required />  
                         </Form.Group>
                         <Form.Group id="password">
                             <Form.Label>Password</Form.Label>

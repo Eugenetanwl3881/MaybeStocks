@@ -25,7 +25,11 @@ function MainPage() {
     return(
     <>
         <ResponsiveAppBar />
-        <h1>Welcome back, {name}!</h1>
+        {user.displayName === null 
+        ? <h1>Welcome!</h1>
+        : <h1>Welcome back, {name}!</h1>
+        }
+        
         <Routes>
         <Route path = "/Home" element = {<HomePage/>} />
         <Route path = "/Portfolio" element = {<PortfolioPage/>} />
