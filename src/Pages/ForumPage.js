@@ -74,7 +74,13 @@ function ForumPage() {
           }}
         >
           {obj.username + ": " + obj.text}
-          <text>{obj.time.toDate().toString()}</text>
+          <div>
+            {
+            (obj.time === null) 
+            ? <div> Loading... </div> 
+            : obj.time.toDate().toLocaleTimeString() + " " + obj.time.toDate().toDateString()
+            }
+          </div>
         </Grid>
       ))}
       <form>
