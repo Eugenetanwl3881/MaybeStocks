@@ -13,17 +13,29 @@ import Typography from "@mui/material/Typography";
 function NewsPage() {
   const [news, setNews] = useState([]);
 
+  var axios = require("axios").default;
+
+  // var options = {
+  //   method: "GET",
+  //   url: "https://api.newscatcherapi.com/v2/search",
+  //   params: { topic: "business", lang: "en", sort_by: "relevancy", page: "1" },
+  //   headers: {
+  //     "x-api-key": "eWVWtorxiZxhg2LTBTFi1MbE0OZJyzbquQZbLuhEkzY",
+  //   },
+  // };
+
   useEffect(() => {
     const loadNews = async () => {
       const response = await axios.get(
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f03b9730518d4553b7f4cc3d62845a07"
+        " https://api.nytimes.com/svc/topstories/v2/business.json?api-key=QUVRvr0H9nWSlTG6Ptz7nNseYrvOmHWi"
       );
-      setNews(response.data.articles);
+      console.log(response);
+      setNews(response.data.results);
     };
     loadNews();
   }, []);
 
-  console.log("news", news);
+  // console.log("news", news);
 
   return (
     <div>
@@ -34,7 +46,8 @@ function NewsPage() {
               <CardMedia
                 component="img"
                 height="140"
-                image={item.urlToImage}
+                // image={item.urlToImage}
+                image={item.multimedia ? item.multimedia[0].url : "No Image"}
                 alt="image"
               />
               <CardContent>
