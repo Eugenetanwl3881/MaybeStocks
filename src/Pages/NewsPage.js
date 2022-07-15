@@ -6,14 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Grid } from "@mui/material";
 
 // import {Card, Button} from "antd"
 // const { Meta } = Card;
 
 function NewsPage() {
   const [news, setNews] = useState([]);
-
-  var axios = require("axios").default;
 
   // var options = {
   //   method: "GET",
@@ -38,11 +37,22 @@ function NewsPage() {
   // console.log("news", news);
 
   return (
-    <div>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: "100vh" }}
+    >
       {news &&
         news.map((item, index) => {
           return (
-            <Card sx={{ maxWidth: 500 }}>
+            <Card
+              sx={{
+                maxWidth: 500,
+              }}
+            >
               <CardMedia
                 component="img"
                 height="140"
@@ -66,7 +76,7 @@ function NewsPage() {
             </Card>
           );
         })}
-    </div>
+    </Grid>
   );
 }
 
