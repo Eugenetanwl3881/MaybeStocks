@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import LoginPage from "../Pages/LoginPage";
 import SignUpPage from "../Pages/SignUpPage";
+import "./LoginOrSignUpPage.css";
 
 function LoginOrSignUpPage() {
   const [showSignUp, setShowSignUp] = useState(false);
@@ -10,7 +11,7 @@ function LoginOrSignUpPage() {
 
   return (
     <>
-      <div>
+      <div className="header">
         {showSignUp ? (
           <>
             <SignUpPage />
