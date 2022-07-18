@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import Popup from "../components/Popup/Popup";
 import axios from "axios";
 
 function HomePage() {
@@ -16,6 +17,10 @@ function HomePage() {
   const [wallet, setWalletState] = useState(0);
 
   const [refresh, setRefreshState] = useState(true);
+
+  const [dupePopup, setDupePopup] = useState(false);
+
+  const [NILPopup, setNILPopup] = useState(false);
 
   function setWatchlist(newWatchlist) {
     setWatchlistState(newWatchlist);
@@ -57,17 +62,18 @@ function HomePage() {
     if (inputRef.current.value === "") {
       console.log("Invalid stock");
     } else {
+      const uppercaseSymbol = inputRef.current.value.toUpperCase();
       axios
         .get(
-          `https://sandbox.iexapis.com/stable/stock/${inputRef.current.value}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
+          `https://sandbox.iexapis.com/stable/stock/${uppercaseSymbol}/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a`
         )
         .then((response) => {
           data = response.data;
-          addWatchlist(inputRef.current.value);
+          addWatchlist(uppercaseSymbol);
         })
         .catch((err) => {
           setError(err);
-          console.log(err);
+          setNILPopup(true);
         }).finally(() => {
           setRefreshState(!refresh);
         });
@@ -76,12 +82,18 @@ function HomePage() {
 
   function addWatchlist(symbol) {
     if (symbol in watchlist) {
-      console.log("Symbol already in watchlist");
+      setDupePopup(true);
     } else {
+      const roundedYTD = roundToFour(data?.ytdChange);
       const newWatchlist = {
         symbol: symbol,
+        companyName: data?.companyName,
         latestPrice: data?.latestPrice,
         dailyPercentChange: data?.changePercent,
+        // Price to earning ratio
+        peRatio: data?.peRatio,
+        // Year to date change
+        ytdChange: roundedYTD,
       };
       watchlist[symbol] = newWatchlist;
       setWatchlist(watchlist);
@@ -108,6 +120,8 @@ function HomePage() {
         .then((response) => {
           watchlist[stock].latestPrice = response.data.latestPrice;
           watchlist[stock].dailyPercentChange = response.data.changePercent;
+          watchlist[stock].peRatio = response.data.peRatio;
+          watchlist[stock].ytdChange = roundToFour(response.data.ytdChange);
         })
         .catch((err) => {
           console.log(stock);
@@ -125,6 +139,11 @@ function HomePage() {
   function round(num) {
     var m = Number((Math.abs(num) * 100).toPrecision(15));
     return (Math.round(m) / 100) * Math.sign(num);
+  }
+
+  function roundToFour(num) {
+    var m = Number((Math.abs(num) * 10000).toPrecision(15));
+    return (Math.round(m) / 10000) * Math.sign(num);
   }
 
   return (
@@ -163,6 +182,16 @@ function HomePage() {
           Add Stock
         </Button>
       </form>
+
+      <Popup trigger={dupePopup} setTrigger={setDupePopup}>
+        <h2>Error</h2>
+        <div>Symbol already in watchlist.</div>
+      </Popup>
+
+      <Popup trigger={NILPopup} setTrigger={setNILPopup}>
+        <h2>Error</h2>
+        <div>Symbol does not exist.</div>
+      </Popup>
     </>
   );
 }

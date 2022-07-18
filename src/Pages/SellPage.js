@@ -5,6 +5,7 @@ import SellInput from "../components/SellInput/SellInput";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
+import Popup from "../components/Popup/Popup";
 
 function SellPage() {
   const [transactions, setTransactionsState] = useState([]);
@@ -12,6 +13,8 @@ function SellPage() {
   const [portfoliosMap, setPortfoliosMapState] = useState({});
 
   const [wallet, setWalletState] = useState(0);
+
+  const [NILPopup, setNILPopup] = useState(false);
 
   const { user } = useAuth();
 
@@ -91,6 +94,7 @@ function SellPage() {
       })
       .catch((err) => {
         setError(err);
+        setNILPopup(true);
       })
       .finally(() => {
         setLoading(false);
@@ -140,6 +144,11 @@ function SellPage() {
           data={data}
         />
       </div>
+
+      <Popup trigger={NILPopup} setTrigger={setNILPopup}>
+        <h2>Error</h2>
+        <div>Symbol does not exist.</div>
+      </Popup>
     </>
   );
 }

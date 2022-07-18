@@ -19,7 +19,6 @@ import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 function descendingComparator(a, b, orderBy) {
@@ -60,6 +59,13 @@ const headCells = [
     label: "Symbol",
   },
   {
+    id: "companyName",
+    // Alignemnt, shouldnt be true
+    numeric: true,
+    disablePadding: false,
+    label: "Company",
+  },
+  {
     id: "latestPrice",
     numeric: true,
     disablePadding: false,
@@ -70,6 +76,18 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: "Daily Percent Change (%)",
+  },
+  {
+    id: "peRatio",
+    numeric: true,
+    disablePadding: false,
+    label: "Price-to-Earnings Ratio",
+  },
+  {
+    id: "ytdChange",
+    numeric: true,
+    disablePadding: false,
+    label: "Year-to-date Change (%)",
   },
 ];
 
@@ -242,7 +260,6 @@ export default function WatchlistTable(props) {
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -340,9 +357,20 @@ export default function WatchlistTable(props) {
                         >
                           {row.symbol}
                         </TableCell>
-                        <TableCell align="right">{row.latestPrice}</TableCell>
+                        <TableCell align="right">
+                          {row.companyName}
+                        </TableCell>
+                        <TableCell align="right">
+                          {row.latestPrice}
+                        </TableCell>
                         <TableCell align="right">
                           {row.dailyPercentChange}
+                        </TableCell>
+                        <TableCell align="right">
+                          {row.peRatio}
+                        </TableCell>
+                        <TableCell align="right">
+                          {row.ytdChange}
                         </TableCell>
                       </TableRow>
                     );
