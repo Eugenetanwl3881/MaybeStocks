@@ -37,6 +37,11 @@ function PortfolioList(props) {
     i++;
   }
 
+  function roundToFour(num) {
+    var m = Number((Math.abs(num) * 10000).toPrecision(15));
+    return (Math.round(m) / 10000) * Math.sign(num);
+  }
+
   return (
     <table style={{ margin: "0 auto", width: "100%" }}>
       <thead>
@@ -58,7 +63,7 @@ function PortfolioList(props) {
             <td>{p.symbol}</td>
             <td>{p.quantity}</td>
             <td>{p.avgprice}</td>
-            <td>{p.gainloss}</td> 
+            <td>{roundToFour(p.gainloss)}</td> 
           </tr>
         ))}
       </tbody>
