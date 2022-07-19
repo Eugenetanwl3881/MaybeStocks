@@ -1,6 +1,8 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Popup from "../Popup/Popup";
+import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
 
 function SellInput(props) {
   const {
@@ -13,7 +15,7 @@ function SellInput(props) {
     data,
   } = props;
 
-  const [newSellTransactionText, setNewSellTransactionText] = useState("");
+  const inputRef = useRef();
   const [successPopup, setSuccessPopup] = useState(false);
   const [failurePopup, setFailurePopup] = useState(false);
   const [failurePopupText, setFailurePopupText] = useState("");
@@ -24,7 +26,7 @@ function SellInput(props) {
     // submit AND refresh the page. So we override the
     // default behaviour here as we don't want to refresh
     event.preventDefault();
-    addSellPortfoliosMap(newSellTransactionText);
+    addSellPortfoliosMap(inputRef.current.value);
   }
 
   function round(num) {
@@ -51,11 +53,7 @@ function SellInput(props) {
       },
     ];
     setTransactions(newSellTransactions);
-    console.log("Wallet before selling");
-    console.log(wallet);
     const amount = wallet + sum;
-    console.log("Amount added to wallet");
-    console.log(sum);
     setWallet(amount);
   }
 
@@ -81,12 +79,10 @@ function SellInput(props) {
         addSellTransaction(strquantity);
         setSuccessPopup(true);
       } else {
-        console.log("Not enough stocks to sell");
         setFailurePopupText("Not enough stocks to sell");
         setFailurePopup(true);
       }
     } else {
-      console.log("You do not own any of this stock currently");
       setFailurePopupText("You do not own any of this stock currently");
       setFailurePopup(true);
     }
@@ -97,17 +93,24 @@ function SellInput(props) {
     <>
       <div>
         <h2>Quantity</h2>
-        <form onSubmit={handleAddSellTransaction}>
-          <input
-            label="Quantity"
-            type="number"
-            value={newSellTransactionText}
-            onChange={(event) => setNewSellTransactionText(event.target.value)}
-          />
-          <button type="submit" variant="contained" color="primary">
-            Sell
-          </button>
-        </form>
+        <TextField
+         label="Quantity"
+          id="standard-size-normal"
+          variant="standard"
+          type="text"
+          placeholder="e.g 10"
+          inputRef={inputRef}
+          sx={{ m: 1 }}
+        ></TextField>
+        <Button
+          variant="contained"
+          onClick={handleAddSellTransaction}
+          type="submit"
+          padding="20px"
+          sx={{ m: 1 }}
+        >
+        Sell
+        </Button>
       </div>
 
       <Popup trigger={successPopup} setTrigger={setSuccessPopup}>

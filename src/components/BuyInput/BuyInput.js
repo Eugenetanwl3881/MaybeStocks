@@ -1,6 +1,8 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Popup from "../Popup/Popup";
+import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
 
 function BuyInput(props) {
   const {
@@ -13,7 +15,7 @@ function BuyInput(props) {
     data,
   } = props;
 
-  const [newBuyTransactionText, setNewBuyTransactionText] = useState("");
+  const inputRef = useRef();
   const [successPopup, setSuccessPopup] = useState(false);
   const [failurePopup, setFailurePopup] = useState(false);
 
@@ -23,7 +25,7 @@ function BuyInput(props) {
     // submit AND refresh the page. So we override the
     // default behaviour here as we don't want to refresh
     event.preventDefault();
-    addBuyTransaction(newBuyTransactionText);
+    addBuyTransaction(inputRef.current.value);
   }
 
   function round(num) {
@@ -95,17 +97,24 @@ function BuyInput(props) {
     <>
       <div>
         <h2>Quantity</h2>
-        <form onSubmit={handleAddBuyTransaction}>
-          <input
-            label="Quantity"
-            type="number"
-            value={newBuyTransactionText}
-            onChange={(event) => setNewBuyTransactionText(event.target.value)}
-          />
-          <button type="submit" variant="contained" color="primary">
-            Buy
-          </button>
-        </form>
+        <TextField
+         label="Quantity"
+          id="standard-size-normal"
+          variant="standard"
+          type="text"
+          placeholder="e.g 10"
+          inputRef={inputRef}
+          sx={{ m: 1 }}
+        ></TextField>
+        <Button
+          variant="contained"
+          onClick={handleAddBuyTransaction}
+          type="submit"
+          padding="20px"
+          sx={{ m: 1 }}
+        >
+        Buy
+        </Button>
       </div>
 
       <Popup trigger={successPopup} setTrigger={setSuccessPopup}>
