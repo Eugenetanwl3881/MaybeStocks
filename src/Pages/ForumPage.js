@@ -50,6 +50,7 @@ function ForumPage() {
         time: serverTimestamp(),
         username: user?.displayName,
       });
+      setNewTextState("");
     } else {
       setFailurePopup(true);
     }
@@ -84,11 +85,13 @@ function ForumPage() {
         >
           {obj.username + ": " + obj.text}
           <div>
-            {
-            (obj.time === null) 
-            ? <div> Loading... </div> 
-            : obj.time.toDate().toLocaleTimeString() + " " + obj.time.toDate().toDateString()
-            }
+            {obj.time === null ? (
+              <div> Loading... </div>
+            ) : (
+              obj.time.toDate().toLocaleTimeString() +
+              " " +
+              obj.time.toDate().toDateString()
+            )}
           </div>
         </Grid>
       ))}
@@ -113,6 +116,7 @@ function ForumPage() {
               id="outlined-textarea"
               label="Enter your message here"
               multiline
+              value={newText}
               onChange={(event) => setNewTextState(event.target.value)}
             />
             <IconButton
