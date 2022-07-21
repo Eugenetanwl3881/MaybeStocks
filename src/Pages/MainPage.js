@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import {Routes, Route} from "react-router";
+import { Routes, Route } from "react-router";
 import PortfolioPage from "./PortfolioPage";
 import TransactionsPage from "./TransactionsPage";
 import BuyPage from "./BuyPage";
@@ -11,36 +11,36 @@ import NewsPage from "./NewsPage";
 import ForumPage from "./ForumPage";
 
 function MainPage() {
+  const { user } = useAuth();
 
-    const { user } = useAuth();
+  const [name, setName] = useState("Loading name...");
 
-    const [name, setName] = useState("Loading name...");
+  useEffect(() => {
+    if (user?.displayName) {
+      setName(user.displayName);
+    }
+  }, [user]);
 
-    useEffect(() => {
-        if (user?.displayName) {
-            setName(user.displayName);
-        }
-    }, [user]);
-
-    return(
+  return (
     <>
-        <ResponsiveAppBar />
-        {user.displayName === null 
-        ? <h1>Welcome!</h1>
-        : <h1>Welcome back, {name}!</h1>
-        }
-        
-        <Routes>
-        <Route path = "/Home" element = {<HomePage/>} />
-        <Route path = "/Portfolio" element = {<PortfolioPage/>} />
-        <Route path = "/Transactions" element = {<TransactionsPage/>} />
-        <Route path = "/Buy" element = {<BuyPage/>} />
-        <Route path = "/Sell" element = {<SellPage/>} />
-        <Route path = "/News" element = {<NewsPage/>} />
-        <Route path = "/Forum" element = {<ForumPage/>} />
-        </Routes>
+      <ResponsiveAppBar />
+      {user.displayName === null ? (
+        <h1 style={{ marginTop: "10px" }}>Welcome!</h1>
+      ) : (
+        <h1 style={{ marginTop: "10px" }}>Welcome back, {name}!</h1>
+      )}
+
+      <Routes>
+        <Route path="/Home" element={<HomePage />} />
+        <Route path="/Portfolio" element={<PortfolioPage />} />
+        <Route path="/Transactions" element={<TransactionsPage />} />
+        <Route path="/Buy" element={<BuyPage />} />
+        <Route path="/Sell" element={<SellPage />} />
+        <Route path="/News" element={<NewsPage />} />
+        <Route path="/Forum" element={<ForumPage />} />
+      </Routes>
     </>
-    )
+  );
 }
 
 export default MainPage;

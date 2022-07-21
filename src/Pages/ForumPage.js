@@ -83,8 +83,19 @@ function ForumPage() {
             mx: "auto",
           }}
         >
-          {obj.username + ": " + obj.text}
-          <div>
+          <span style={{ display: "inline" }}>
+            <span style={{ fontWeight: "bold", display: "inline" }}>
+              {obj.username} :
+            </span>
+            <span C> {obj.text}</span>
+          </span>
+
+          <div
+            style={{
+              fontStyle: "italic",
+              fontSize: "small",
+            }}
+          >
             {obj.time === null ? (
               <div> Loading... </div>
             ) : (
