@@ -10,6 +10,7 @@ function LoginPage() {
     <>
       <img src={logo} alt="img" width="420px" height="auto" />
       <SignIn />
+      <br />
       <Button variant="contained" color="primary" onClick={signInWithGoogle}>
         Sign in with Google
       </Button>

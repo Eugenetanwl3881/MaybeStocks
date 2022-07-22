@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function SignIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { signin } = useAuth();
+  const [errorBool, setErrorBool] = useState(false);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -19,9 +22,8 @@ function SignIn() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log(user);
     } catch (error) {
-      console.log(error);
+      setErrorBool(true);
       setError("Wrong email/password!");
     }
     setLoading(false);
@@ -29,25 +31,71 @@ function SignIn() {
 
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h1 className="test-centre mb-4">Log In</h1>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        justifyContent="center"
+      >
+        <div>
+          <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+          >
+            Email:
+            <TextField
+              required
+              id="outlined-required"
+              label="Required"
+              inputRef={emailRef}
+            />
+          </div>
+          <br />
+          <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+          >
+            Password:
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              inputRef={passwordRef}
+            />
+          </div>
+          <div>
+            <Button 
+              variant="contained"
+              color="secondary"
+              onClick={handleSubmit}
+            >
               Sign In
             </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+            {
+              errorBool ?
+                <div
+                  style={{
+                    color: "red"
+                  }}
+                >
+                  {error}
+                </div>
+                : <div></div>
+            }
+            
+          </div>
+        </div>
+      </Box>
     </>
   );
 }
