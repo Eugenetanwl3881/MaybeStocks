@@ -78,6 +78,7 @@ function SellInput(props) {
             gainloss: ((data?.latestPrice - pap) * 100) / data?.latestPrice,
             quantity: pq - quantity,
             symbol: previousValue.symbol,
+            latestPrice: data?.latestPrice,
           };
           portfoliosMap[symbol] = newSymbol;
           addSellTransaction(strquantity);

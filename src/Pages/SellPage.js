@@ -4,7 +4,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import SellInput from "../components/SellInput/SellInput";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import Popup from "../components/Popup/Popup";
 
 function SellPage() {
@@ -101,10 +101,6 @@ function SellPage() {
       });
   }
 
-  //const {data, loading} = useFetch("https://sandbox.iexapis.com/stable/stock/BA/quote?token=Tpk_a1ecdafbdf2442f8a8fed66b8eedda5a");
-
-  //if (loading) return <h1>Loading...</h1>
-
   return (
     <>
       <h1>Sell Page</h1>
@@ -123,12 +119,14 @@ function SellPage() {
           inputRef={inputRef}
           sx={{ m: 1 }}
         ></TextField>
-        
-        <Button variant="contained"
+
+        <Button
+          variant="contained"
           onClick={handleClick}
           type="submit"
           padding="20px"
-          sx={{ m: 1 }}>
+          sx={{ m: 1 }}
+        >
           Search
         </Button>
       </form>
@@ -144,6 +142,17 @@ function SellPage() {
           data={data}
         />
       </div>
+
+      <p style={{ marginTop: "1%" }}>
+        Not sure of your stock's symbol? Check this link{" "}
+        <a
+          href="https://www.nasdaq.com/market-activity/stocks/screener"
+          target="_blank"
+        >
+          here
+        </a>
+        .
+      </p>
 
       <Popup trigger={NILPopup} setTrigger={setNILPopup}>
         <h2>Error</h2>
