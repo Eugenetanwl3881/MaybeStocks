@@ -1,7 +1,6 @@
 import * as React from "react";
 
 function TransactionTable(props) {
-  
   const { transactions, setTransactions } = props;
 
   return (
@@ -31,8 +30,8 @@ function TransactionList(props) {
           <th>No.</th>
           <th>Symbol</th>
           <th>Quantity</th>
-          <th>Price</th>
-          <th>Total</th>
+          <th>Price ($)</th>
+          <th>Total ($)</th>
           <th>Buy/Sell</th>
           <th>Date</th>
         </tr>

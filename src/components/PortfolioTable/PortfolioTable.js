@@ -1,7 +1,6 @@
 import * as React from "react";
 
 function PortfolioTable(props) {
-  
   const { portfoliosMap, setPortfoliosMap } = props;
 
   var size = Object.keys(portfoliosMap).length;
@@ -9,19 +8,15 @@ function PortfolioTable(props) {
   return (
     <>
       <div>
-        <h2>Portfolio</h2>
-        {size > 0 ?
-          (
-            <PortfolioList
-              portfoliosMap={portfoliosMap}
-              setPortfoliosMap={setPortfoliosMap}
-            />
-          ) 
-          : 
-          (
+        <h2 style={{ marginBottom: "1%" }}>Portfolio</h2>
+        {size > 0 ? (
+          <PortfolioList
+            portfoliosMap={portfoliosMap}
+            setPortfoliosMap={setPortfoliosMap}
+          />
+        ) : (
           <p>No stocks yet! Buy some on the top left bar!</p>
-          )
-        } 
+        )}
       </div>
     </>
   );
@@ -49,8 +44,9 @@ function PortfolioList(props) {
           <th>No.</th>
           <th>Symbol</th>
           <th>Quantity</th>
-          <th>Average Price</th>
-          <th>Gain/Loss</th>
+          <th>Latest Price ($)</th>
+          <th>Average Price ($)</th>
+          <th>Gain/Loss (%)</th>
         </tr>
       </thead>
       <tbody>
@@ -62,8 +58,9 @@ function PortfolioList(props) {
             <td>{index + 1}</td>
             <td>{p.symbol}</td>
             <td>{p.quantity}</td>
+            <td>{p.latestPrice}</td>
             <td>{p.avgprice}</td>
-            <td>{roundToFour(p.gainloss)}</td> 
+            <td>{roundToFour(p.gainloss)}</td>
           </tr>
         ))}
       </tbody>

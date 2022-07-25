@@ -87,6 +87,7 @@ function BuyInput(props) {
         gainloss: ((data?.latestPrice - cap) * 100) / data?.latestPrice,
         quantity: quantity + pq,
         symbol: previousValue.symbol,
+        latestPrice: data?.latestPrice,
       };
       portfoliosMap[symbol] = newSymbol;
     } else {
@@ -96,13 +97,14 @@ function BuyInput(props) {
         gainloss: 0,
         quantity: quantity,
         symbol: data?.symbol,
+        latestPrice: data?.latestPrice,
       };
       portfoliosMap[symbol] = newSymbol;
     }
     setPortfoliosMap(portfoliosMap);
   }
 
-  // console.log(typeof(portfoliosMap));
+  // console.log(portfoliosMap);
 
   return (
     <>

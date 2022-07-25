@@ -4,7 +4,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import BuyInput from "../components/BuyInput/BuyInput";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import Popup from "../components/Popup/Popup";
 
 function BuyPage() {
@@ -77,7 +77,7 @@ function BuyPage() {
     companyName: "Enter Symbol Below",
     latestPrice: null,
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -104,7 +104,7 @@ function BuyPage() {
         setLoading(false);
       });
   }
-  
+
   //if (loading) return <h1>Loading...</h1>;
 
   return (
@@ -117,7 +117,7 @@ function BuyPage() {
       <form>
         <div>Enter Stock Symbol</div>
         <TextField
-         label="Symbol"
+          label="Symbol"
           id="standard-size-normal"
           variant="standard"
           type="text"
@@ -147,6 +147,17 @@ function BuyPage() {
           data={data}
         />
       </div>
+
+      <p style={{ marginTop: "1%" }}>
+        Not sure of your stock's symbol? Check this link{" "}
+        <a
+          href="https://www.nasdaq.com/market-activity/stocks/screener"
+          target="_blank"
+        >
+          here
+        </a>
+        .
+      </p>
 
       <Popup trigger={NILPopup} setTrigger={setNILPopup}>
         <h2>Error</h2>
