@@ -45,22 +45,24 @@ This React Web application will be a one-stop application for our users to pract
 - Users get to interact with their friends on the platform to allow for peer learning
 
 ## Development Plan:
- - Week 3 of May: Finalised LiftOff Submission. Attended workshops and watched online tutorials on building of web applications using React and using of Git
+- Week 3 of May: Finalised LiftOff Submission. Attended workshops and watched online tutorials on building of web applications using React and using of Git
 
 - Week 4 of May: Picking up relevant technologies — Reactjs, JavaScript, Firebase, CSS. Created a Mockup of what our web application should look like on Figma. Implemented the basics of our web application, including the Login functionality, the Buying and Selling functionalities and keeping track of the users’ transactions.  
-- Week 1 of June: Submission of Milestone 1. Polishing up the UI. Addition of email/password login. Implementation of the user’s wallet to keep track of the user’s wealth. Adding a transaction page (which replaces the portfolio page). Addition of a new portfolio page. Adding a watchlist to the Home page. 
 
-- Week 2 of June: Start adding the forum functionalities. Polishing up the UI.
+- Week 1 of June: Submission of Milestone 1. Implementation of the user’s wallet to keep track of the user’s wealth. Adding a transaction page . Addition of a new portfolio page(get the logic behind gain loss working, updating the database when we buy and sell). Performed peer evaluations for other teams.
 
-- Week 3 of June: Addition of a News Page. 
+- Week 2 of June: Portfolio, Buy and Sell Pages have been implemented. Addition of email/password login. Added a wallet to keep track of the amount of money a user has.
 
-- Week 4 of June: Finish the implementation of all basic functionalities. Testing of our web application. 
+- Week 3 of June: Addition of a News Page. Attended workshops on UI/UX. Addition of the wallet to the Home Page. Added skeletal code for the forum/chat room functionality.
 
-- Week 1 of July: Improve the News page to provide curated news. Addition of an explore page for users to search up different companies stock prices history. Discuss on peer evaluation
+- Week 4 of June: Deployment of website. Testing of our web application and preparation of Milestone 2 submission. Started discussing on feature we should prioritize on and which to leave to after Milestone 2
 
-- Week 2 of July: Improve the web application with regards to peer evaluation.
+- Week 1 of July: Submission of Milestone 2. Remade the News page and searched for an alternative and better API as the previous API does not work on the live server. 
+Reviewed on peer evaluation given and charted out a roadmap towards Milestone 3. Perform peer evaluation for other teams.
 
-- Week 3 of July: Testing and debugging
+- Week 2 of July:  Implementation of the forum function. Improve the web application with regards to peer evaluation such as pop-ups etc. Improved UI/UX of various components. Fixing bugs that were found.
+
+- Week 3 of July: Improving UI/UX. Testing and debugging using React Testing Library and JEST. Preparation of Milestone 3 submission materials. Fixing bugs that were found.
 
 - Week 4 of July: Touchup and Submission of Milestone 3
 
