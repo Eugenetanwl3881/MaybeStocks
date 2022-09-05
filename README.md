@@ -5,6 +5,8 @@ Technology stack:
  - Firebase
  -  IEX Cloud API
 
+## [Write-up] of our experience of Orbital 2022 (https://docs.google.com/document/d/1bCX1S23nS5O3kamELCkGVD5NcRqDRAZvaqhWJLiN60g/edit?usp=sharing)
+
 
 Figma Wireframe:
 https://www.figma.com/file/kwfkNxRJy8KPBXeBryCP2p/MileStone1-Jam?node-id=0%3A1
